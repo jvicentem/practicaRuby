@@ -8,7 +8,7 @@ class NormalArticle < Article
   end
   
   def self.create_empty_normalArticle
-    NormalArticle.new("","",[],[],"","",0)
+    NormalArticle.new('','',[],[],'','',0)
   end
   
   def self.list_of_lines_to_articles(list_of_lines)

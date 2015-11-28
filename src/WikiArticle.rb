@@ -3,12 +3,12 @@ require_relative 'Article'
 class WikiArticle < Article
   
   def initialize(id, title, sections, acronyms, last_updated)
-    super(id, title, "--", sections, acronyms)
+    super(id, title, '--', sections, acronyms)
     @last_updated = last_updated
   end
   
   def self.create_empty_WikiArticle
-    WikiArticle.new("","",[],[],0)
+    WikiArticle.new('','',[],[],0)
   end
   
   def self.list_of_lines_to_articles(list_of_lines)
