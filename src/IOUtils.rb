@@ -12,7 +12,7 @@ de artículos en medios externos.
 require 'TextFileUtils'
 
 class IOUtils
-  def initialize ()
+  def initialize
     @external_source = TextFileUtils.new("./docsUTF8pruebas")
   end
   

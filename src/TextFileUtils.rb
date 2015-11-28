@@ -5,7 +5,7 @@ información de artículos que se encuentran en archivos de texto.
 
 class TextFileUtils
   
-  def initialize (path)
+  def initialize(path)
     if valid_path?(path) then
       @folder_with_articles = path
     else
@@ -28,7 +28,7 @@ lista con las líneas de texto de cada artículo.
   end
   
   private
-    def valid_path? (path)
+    def valid_path?(path)
       File.directory?(path)
     end
     
@@ -36,7 +36,7 @@ lista con las líneas de texto de cada artículo.
       Dir[self.folder_with_articles+'/*']
     end
   
-    def read_file (file_path)
+    def read_file(file_path)
       lines = []
         
       File.open(file_path, "r") do |f|
