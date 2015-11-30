@@ -12,17 +12,17 @@ class Acronym
     "Acrónimo = #{self.acronym()}\nSignificado = #{self.meaning}"
   end
   
+  # http://rubular.com/
+  def self.acronym?(word)
+    word.scan(/\A[\(+[A-Z]+][A-Z0-9]+\-?\d*\)[.:;,]?\Z/).length > 0
+  end
+  
+  def self.get_meaning(acronym)
+  end
+  
   #private
-    # http://rubular.com/
-    def self.acronym?(word)
-      return word.scan(/\A[\(+[A-Z]+][A-Z0-9]+\-?\d*\)[.:;,]?\Z/).length > 0
-    end
-    
-    def self.get_meaning(acronym)
-    end
-    
     def acronym_no_parenthesis?(word)
-      return word.scan(/\A[A-Z]+[A-Z0-9]+\-?\d*[.:;,]?\Z/).length > 0
+      word.scan(/\A[A-Z]+[A-Z0-9]+\-?\d*[.:;,]?\Z/).length > 0
     end
     
     def valid?(word)
@@ -30,7 +30,7 @@ class Acronym
       last_char != ',' && last_char != '.' && last_char != ':' && last_char != ';'
     end
     
-    def criterion1(acronym, words, acronym_position)
+    def criterion1(acronym, words)
       acronym_without_parenthesis = StringUtils.remove_parenthesis(acronym)
       
       improved_list_of_words = words.reverse
@@ -92,7 +92,7 @@ class Acronym
       return Acronym.new(acronym_without_parenthesis, temp_meaning.join(" "))
     end
 
-    def criterion2(acronym, words, acronym_position)
+    def criterion2(acronym, words)
       acronym_without_parenthesis = StringUtils.remove_parenthesis(acronym)
       acronym_without_parenthesis = StringUtils.remove_character(acronym_without_parenthesis,'-')
       
@@ -133,9 +133,29 @@ class Acronym
       return Acronym.new(acronym_without_parenthesis, temp_meaning.join(" "))
     end
     
-    def criterion3(words)
+    def criterion3(acronym, words)
       acronym_without_parenthesis = StringUtils.remove_parenthesis(acronym)
+=begin     
+      improved_list_of_words = words
       
+      reversed_acronym = acronym_without_parenthesis
+      
+      temp_meaning = []
+        
+      meaning_found = false
+      
+      improved_list_of_words.each_with_index {|word, index|
+        if (temp_meaning.length != 2) then
+          if valid?(word) && !acronym_no_parenthesis?(word) && (word[0...acronym_without_parenthesis.length].downcase == acronym_without_parenthesis.downcase) then
+            temp_meaning << word
+            temp_meaning << improved_list_of_words[index+1]
+            break
+          else
+            temp_meaning = []
+          end
+        end
+      }
+=end
       improved_list_of_words = words.reverse
       
       reversed_acronym = acronym_without_parenthesis.reverse
@@ -144,15 +164,15 @@ class Acronym
         
       meaning_found = false
       
-      improved_list_of_words.each {|word|
+      improved_list_of_words.each_with_index {|word, index|
+        next_word = if (index+1) < improved_list_of_words.length then improved_list_of_words[index+1] else word end
+        
         if (temp_meaning.length != 2) then
-          if meaning_found then
-            temp_meaning.unshift(word)
-            break
-          else
-            if valid?(word) && !acronym_no_parenthesis?(word) && (word[0...acronym_without_parenthesis.length].downcase == acronym_without_parenthesis.downcase) then
+          unless condition_for_criterion3(word, acronym_without_parenthesis) then
+            if condition_for_criterion3(next_word, acronym_without_parenthesis) then
               temp_meaning.unshift(word)
-              meaning_found = true
+              temp_meaning.unshift(next_word)
+              break              
             else
               temp_meaning = []
             end
@@ -161,6 +181,11 @@ class Acronym
       }
       
       return Acronym.new(acronym_without_parenthesis, temp_meaning.join(" "))
+    end
+    
+    def condition_for_criterion3(word, acronym_without_parenthesis)
+      #Si la palabra es válida y no es un acrónimo y además las primeras n letras de la palabra coinciden con las n letras del acrónimo, entonces la palabra se tiene en cuenta
+      valid?(word) && !acronym_no_parenthesis?(word) && (word[0...acronym_without_parenthesis.length].downcase == acronym_without_parenthesis.downcase)
     end
     
     def criterion4(words)
@@ -180,3 +205,4 @@ acr = Acronym.new('a','b')
 # puts improved_list_of_words[0].downcase
 # puts acr.criterion1('(ACB)',['pepe','amarillo','casa','pepe','blanco','amarillo','casa.','blanco','amarillo','CSA','blanco','Amarillo1','Casa2','Blanco3','(ACB)'],14)
 # puts acr.criterion2('(ACB)',['amarillo','casa','intruso','blanco','(ACB)'],4)
+# puts acr.criterion3('(USH)',['usher','syndrome','(USH)'])
