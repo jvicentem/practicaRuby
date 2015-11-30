@@ -31,7 +31,7 @@ class WikiArticle < Article
   
   attr_reader :last_updated
   
-  #private
+  private
     def get_id(lines) 
       lines[0]
     end

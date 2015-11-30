@@ -19,12 +19,17 @@ class Article
   end
   
   def get_acronyms(lines)
+    # Por cada línea, busca acrónimos y si encuentra uno busco su 
+    # significado llamando a la función de la clase Acronym get_meaning
+    # pasándole como parámetro un array con las palabras desde la primera
+    # hasta donde está el acrónimo, sin incluirle [0...acronym_position]
     []
   end
   
   def to_s
     return "ID: #{self.id} \nTitle: #{self.title} \nSections: #{self.sections} \nAcronyms: #{self.acronyms}\n"
   end
+  
   attr_reader :id, :title, :separator, :sections, :acronyms
 end
 
