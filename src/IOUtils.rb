@@ -9,15 +9,16 @@ external_source los que se modifiquen y así otras clases estén
 aisladas de los detalles concretos de extracción de información 
 de artículos en medios externos.
 =end
-require 'TextFileUtils'
+require_relative 'TextFileUtils'
+require_relative 'Acronym'
 
 class IOUtils
   def initialize
     @external_source = TextFileUtils.new("./docsUTF8pruebas")
   end
   
-  def read_info_from_external_source
-    return self.external_source.read_files
+  def read_files
+    list_of_lines = read_info_from_external_source
   end
   
   attr_reader :external_source

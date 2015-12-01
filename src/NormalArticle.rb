@@ -15,16 +15,24 @@ class NormalArticle < Article
     super(list_of_lines, NormalArticle.create_empty_normalArticle())
   end
   
-  def lines_to_article(lines)
-    NormalArticle.new(
-      get_id(lines),
-      get_title(lines),
-      get_sections(lines),
-      get_acronyms(lines),
-      get_source(lines),
-      get_abstract(lines),
-      get_year(lines)
-    )
+  def self.normalArticle?(lines)
+    return get_id(lines).scan(/\d+/)
+  end
+  
+  def self.lines_to_article(lines)
+    if normalArticle?(lines) then
+      NormalArticle.new(
+        get_id(lines),
+        get_title(lines),
+        get_sections(lines),
+        get_acronyms(lines),
+        get_source(lines),
+        get_abstract(lines),
+        get_year(lines)
+      )
+    else
+      return nil
+    end
   end
   
   def to_s
