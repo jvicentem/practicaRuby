@@ -17,10 +17,16 @@ class Acronym
     word.scan(/\A[\(+[A-Z]+][A-Z0-9]+\-?\d*\)[.:;,]?\Z/).length > 0
   end
   
-  def self.get_meaning(acronym)
+  def self.get_meaning(acronym, partial_line)
+    if meaning = criterion1(acronym, partial_line).meaning.length > 0 then
+    elsif meaning = criterion2(acronym, partial_line).meaning.length > 0
+      elsif meaning = criterion3(acronym, partial_line).meaning.length > 0
+        elsif meaning = criterion4(acronym, partial_line).meaning.length > 0
+          
+    return meaning
   end
   
-  #private
+  private
     def acronym_no_parenthesis?(word)
       word.scan(/\A[A-Z]+[A-Z0-9]+\-?\d*[.:;,]?\Z/).length > 0
     end
@@ -188,16 +194,50 @@ class Acronym
       valid?(word) && !acronym_no_parenthesis?(word) && (word[0...acronym_without_parenthesis.length].downcase == acronym_without_parenthesis.downcase)
     end
     
-    def criterion4(words)
-    end
-    
-    def criterion5(words)
-    end            
+    def criterion4(acronym, words)
+      acronym_without_parenthesis = StringUtils.remove_parenthesis(acronym)
+      improved_list_of_words = words.reverse
+      
+      reversed_acronym = acronym_without_parenthesis.reverse
+      
+      temp_meaning = []
+        
+      improved_list_of_words.each {|word|
+        valid_word = false
+        if (!reversed_acronym.empty?()) then
+          if !Acronym.acronym?(word) && !acronym_no_parenthesis?(word) && #Si la palabra no es un acrónimo
+            (valid?(word) || (!valid?(word) && temp_meaning.length == 1)) then #Y además es válida o si no lo es se trata de la última palabra del significado, entonces se tiene en cuenta
+            word.reverse.each_char {|letter| 
+                                        if reversed_acronym.length > 1 then
+                                          if letter.downcase == reversed_acronym[0].downcase then 
+                                            valid_word = true
+                                          end                                        
+                                        else
+                                          if word.reverse[0] == reversed_acronym[0] then 
+                                            valid_word = true
+                                          end                                           
+                                        end
+                                   }
+          end
+          
+          if valid_word then
+            reversed_acronym.slice!(0)
+            temp_meaning.unshift(word)              
+          else 
+            reversed_acronym = acronym_without_parenthesis.reverse
+            temp_meaning = []
+          end
+          
+        end
+      }
+      
+      return Acronym.new(acronym_without_parenthesis, temp_meaning.join(" "))
+    end         
 
 end
 
 # TEST
-acr = Acronym.new('a','b')
+# acr = Acronym.new('a','b')
 # puts acr.acronym?('(ABC)')
 # puts acr.acronym?('(ABC-1)')
 # words = ['amarillo','casa','Blanco','(ACB)']
@@ -206,3 +246,4 @@ acr = Acronym.new('a','b')
 # puts acr.criterion1('(ACB)',['pepe','amarillo','casa','pepe','blanco','amarillo','casa.','blanco','amarillo','CSA','blanco','Amarillo1','Casa2','Blanco3','(ACB)'],14)
 # puts acr.criterion2('(ACB)',['amarillo','casa','intruso','blanco','(ACB)'],4)
 # puts acr.criterion3('(USH)',['usher','syndrome','(USH)'])
+# puts acr.criterion4('(MTHFR)',['methylenetetrahydrofolate','reductase','(MTHFR)'])
