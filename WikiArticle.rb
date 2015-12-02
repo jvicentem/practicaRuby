@@ -58,11 +58,11 @@ class WikiArticle < Article
     def get_content(lines)
       super(lines).flatten!
     end
-=begin        
+       
     def get_acronyms(lines)
       super(lines)
     end
-=end
+    
 end
 
 # TEST

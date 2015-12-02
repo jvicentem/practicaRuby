@@ -68,11 +68,11 @@ class NormalArticle < Article
     def get_content(lines)
       (super(lines) << get_abstract(lines)).flatten!
     end
-=begin   
+
     def get_acronyms(lines)
       super(lines)
     end
-=end
+
 end
 
 # TEST

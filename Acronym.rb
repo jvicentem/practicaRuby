@@ -256,4 +256,4 @@ acr = Acronym.new('a','b')
 # puts acr.criterion2('(ACB)',['amarillo','casa','intruso','blanco','(ACB)'],4)
 # puts acr.criterion3('(USH)',['usher','syndrome','(USH)'])
 # puts acr.criterion4('(MTHFR)',['methylenetetrahydrofolate','reductase','(MTHFR)'])
-puts Acronym.get_meaning('(MTHFR)','methylenetetrahydrofolate reductase')
+
