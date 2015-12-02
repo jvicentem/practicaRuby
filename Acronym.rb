@@ -1,7 +1,7 @@
 require_relative 'StringUtils'
 
 class Acronym
-  
+
   def initialize (acronym,meaning)
     @acronym, @meaning = acronym, meaning
   end
@@ -9,7 +9,7 @@ class Acronym
   attr_reader :acronym, :meaning
   
   def to_s
-    "Acrónimo = #{self.acronym()}\nSignificado = #{self.meaning}"
+    "Acrónimo = #{self.acronym()}\nSignificado = #{self.meaning}\n\n"
   end
   
   def self.create_empty_Acronym
@@ -22,14 +22,19 @@ class Acronym
   end
   
   def self.get_meaning(acronym, partial_line)
+    acronym_cleaned = if StringUtils.has_any_of_these_characters_at_the_end?(acronym,[',','.',':',';']) then
+                        StringUtils.remove_last_char!(acronym) 
+                      else 
+                        acronym 
+                      end
     temp_empty_acronym = Acronym.create_empty_Acronym
     
-    if (meaning = temp_empty_acronym.criterion1(acronym, words_list)).meaning.length > 0 then
-    elsif (meaning = temp_empty_acronym.criterion2(acronym, words_list)).meaning.length > 0
-      elsif (meaning = temp_empty_acronym.criterion3(acronym, words_list)).meaning.length > 0
-        elsif (meaning = temp_empty_acronym.criterion4(acronym, words_list)).meaning.length > 0
+    if (meaning = temp_empty_acronym.criterion1(acronym_cleaned, partial_line)).meaning.length > 0 then
+    elsif (meaning = temp_empty_acronym.criterion2(acronym_cleaned, partial_line)).meaning.length > 0
+      elsif (meaning = temp_empty_acronym.criterion3(acronym_cleaned, partial_line)).meaning.length > 0
+        elsif (meaning = temp_empty_acronym.criterion4(acronym_cleaned, partial_line)).meaning.length > 0
         else
-          return Acronym.new(StringUtils.remove_parenthesis(acronym), "No se ha encontrado significado para este acrónimo")
+          return Acronym.new(StringUtils.remove_parenthesis(acronym_cleaned), "No se ha encontrado significado para este acrónimo")
         end
           
     return meaning
@@ -48,8 +53,8 @@ class Acronym
     improved_list_of_words.each {|word|
       if (temp_meaning.length != acronym_without_parenthesis.length) then
         if (word[0].downcase == reversed_acronym[acronym_letter_index].downcase) && #Si la primera letra de la palabra coincide con la letra del acrónimo que toca y además... 
-          ((valid?(word) && !acronym_no_parenthesis?(word)) || #La palabra es válida y no es un acrónimo o...
-           (!valid?(word) && (temp_meaning == (acronym_without_parenthesis.length - 1))) #La palabra no es válida pero es la última, entonces forma parte del significado
+          ((StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && !acronym_no_parenthesis?(word)) || #La palabra es válida y no es un acrónimo o...
+           (!StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && (temp_meaning == (acronym_without_parenthesis.length - 1))) #La palabra no es válida pero es la última, entonces forma parte del significado
           ) then
             temp_meaning.unshift(word)
             acronym_letter_index  = acronym_letter_index + 1
@@ -73,7 +78,7 @@ class Acronym
       word = improved_list_of_words[word_index].downcase
       
       if word[0] == reversed_acronym[acronym_letter_index].downcase then
-        if valid?(word) && !acronym?(word) then
+        if StringUtils.has_any_of_these_characters_at_the_end?(word) && !acronym?(word) then
           temp_meaning.unshift(word)
           acronym_letter_index  = acronym_letter_index + 1
         else
@@ -112,8 +117,8 @@ class Acronym
     improved_list_of_words.each {|word|
       if (temp_meaning.length != (acronym_without_parenthesis.length+1)) then
         if (word[0].downcase == reversed_acronym[acronym_letter_index].downcase) && #Si la primera letra de la palabra coincide con la letra del acrónimo que toca y además... 
-          ((valid?(word) && !acronym_no_parenthesis?(word)) || #La palabra es válida y no es un acrónimo o...
-           (!valid?(word) && (temp_meaning == (acronym_without_parenthesis.length - 1))) #La palabra no es válida pero es la última, entonces forma parte del significado
+          ((StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && !acronym_no_parenthesis?(word)) || #La palabra es válida y no es un acrónimo o...
+           (!StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && (temp_meaning == (acronym_without_parenthesis.length - 1))) #La palabra no es válida pero es la última, entonces forma parte del significado
           ) then
             temp_meaning.unshift(word)
             acronym_letter_index  = acronym_letter_index + 1
@@ -121,7 +126,7 @@ class Acronym
           if !already_a_word_in_the_middle && #Si no hay ya una palabra que no coincida en el medio 
             !temp_meaning.empty? && #y no va a ser la primera palabra del significado 
             !acronym_no_parenthesis?(word) && !Acronym.acronym?(word) && #y además no es un acrónimo 
-             valid?(word) then #y la palabra es válida, entonces la tenemos en cuenta
+             StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) then #y la palabra es válida, entonces la tenemos en cuenta
             already_a_word_in_the_middle = true
             temp_meaning.unshift(word)
           else #Si aún así no se cumple lo anterior, se descarta
@@ -151,7 +156,7 @@ class Acronym
     
     improved_list_of_words.each_with_index {|word, index|
       if (temp_meaning.length != 2) then
-        if valid?(word) && !acronym_no_parenthesis?(word) && (word[0...acronym_without_parenthesis.length].downcase == acronym_without_parenthesis.downcase) then
+        if StringUtils.has_any_of_these_characters_at_the_end?(word) && !acronym_no_parenthesis?(word) && (word[0...acronym_without_parenthesis.length].downcase == acronym_without_parenthesis.downcase) then
           temp_meaning << word
           temp_meaning << improved_list_of_words[index+1]
           break
@@ -200,7 +205,7 @@ class Acronym
       valid_word = false
       if (!reversed_acronym.empty?()) then
         if !Acronym.acronym?(word) && !acronym_no_parenthesis?(word) && #Si la palabra no es un acrónimo
-          (valid?(word) || (!valid?(word) && temp_meaning.length == 1)) then #Y además es válida o si no lo es se trata de la última palabra del significado, entonces se tiene en cuenta
+          (StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) || (!StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && temp_meaning.length == 1)) then #Y además es válida o si no lo es se trata de la última palabra del significado, entonces se tiene en cuenta
           word.reverse.each_char {|letter| 
                                       if reversed_acronym.length > 1 then
                                         if letter.downcase == reversed_acronym[0].downcase then 
@@ -233,20 +238,15 @@ class Acronym
       word.scan(/\A[A-Z]+[A-Z0-9]+\-?\d*[.:;,]?\Z/).length > 0
     end
     
-    def valid?(word)
-      last_char = word[-1]
-      last_char != ',' && last_char != '.' && last_char != ':' && last_char != ';'
-    end
-    
     def condition_for_criterion3(word, acronym_without_parenthesis)
       #Si la palabra es válida y no es un acrónimo y además las primeras n letras de la palabra coinciden con las n letras del acrónimo, entonces la palabra se tiene en cuenta
-      valid?(word) && !acronym_no_parenthesis?(word) && (word[0...acronym_without_parenthesis.length].downcase == acronym_without_parenthesis.downcase)
+      StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && !acronym_no_parenthesis?(word) && (word[0...acronym_without_parenthesis.length].downcase == acronym_without_parenthesis.downcase)
     end
 
 end
 
 # TEST
-# acr = Acronym.new('a','b')
+acr = Acronym.new('a','b')
 # puts acr.acronym?('(ABC)')
 # puts acr.acronym?('(ABC-1)')
 # words = ['amarillo','casa','Blanco','(ACB)']
@@ -256,4 +256,4 @@ end
 # puts acr.criterion2('(ACB)',['amarillo','casa','intruso','blanco','(ACB)'],4)
 # puts acr.criterion3('(USH)',['usher','syndrome','(USH)'])
 # puts acr.criterion4('(MTHFR)',['methylenetetrahydrofolate','reductase','(MTHFR)'])
-# puts Acronym.get_meaning('(MTHFR)','methylenetetrahydrofolate reductase')
+puts Acronym.get_meaning('(MTHFR)','methylenetetrahydrofolate reductase')

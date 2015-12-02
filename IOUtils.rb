@@ -10,16 +10,18 @@ aisladas de los detalles concretos de extracción de información
 de artículos en medios externos.
 =end
 require_relative 'TextFileUtils'
-require_relative 'Acronym'
 
 class IOUtils
   def initialize
-    @external_source = TextFileUtils.new("./docsUTF8pruebas")
+    @external_source = TextFileUtils.new("./docsUTF8prueba")
   end
   
   def read_files
-    list_of_lines = read_info_from_external_source
+    self.external_source.read_files
   end
   
   attr_reader :external_source
 end
+
+#TEST
+#puts IOUtils.new().read_files()

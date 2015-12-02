@@ -41,7 +41,7 @@ lista con las líneas de texto de cada artículo.
         
       File.open(file_path, "r") do |f|
         f.each_line do |line|
-          lines << line
+          lines << line.chomp!
         end
       end
       

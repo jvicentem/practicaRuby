@@ -11,21 +11,13 @@ class WikiArticle < Article
     WikiArticle.new('','',[],[],0)
   end
   
-  def self.list_of_lines_to_articles(list_of_lines)
-    super(list_of_lines, WikiArticle.create_empty_WikiArticle())
-  end
-  
-  def self.wikiArticle?(lines)
-    return get_id(lines).starts_with?('WDOC')
-  end
-  
-  def self.lines_to_article(lines)
+  def lines_to_article(lines)
     if wikiArticle?(lines) then
       WikiArticle.new(
         get_id(lines),
         get_title(lines),
         get_sections(lines),
-        get_acronyms(lines),
+        get_acronyms(get_content(lines)),
         get_last_updated(lines)
       )
     else
@@ -34,12 +26,27 @@ class WikiArticle < Article
   end
   
   def to_s
-    super + "Last updated: #{self.last_updated}"
+    super + "Last updated: #{self.last_updated}\n\n"
   end
   
   attr_reader :last_updated
   
+  def get_title(lines)
+    lines[2]
+  end
+  
+  def get_sections(lines)
+    sections = get_separated_content(lines)
+    section_titles = []
+    sections.find_all {|section| section_titles << section.scan(/^\d\.\s.+/)}
+    return section_titles.flatten
+  end
+  
   private
+    def wikiArticle?(lines)
+      return get_id(lines).start_with?('WDOC')
+    end
+  
     def get_id(lines) 
       lines[0]
     end
@@ -48,20 +55,14 @@ class WikiArticle < Article
       lines[1]
     end    
     
-    def get_title(lines)
-      lines[2]
+    def get_content(lines)
+      super(lines).flatten!
     end
-    
-    def get_sections(lines)
-      sections = get_separated_content(lines)
-      section_titles = []
-      sections.find_all {|section| section_titles << section.scan(/^\d\.\s.+/)}
-      return section_titles.flatten
-    end
-    
+=begin        
     def get_acronyms(lines)
       super(lines)
     end
+=end
 end
 
 # TEST
