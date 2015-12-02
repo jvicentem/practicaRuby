@@ -209,24 +209,26 @@ class Acronym
           word.reverse.each_char {|letter| 
                                       if reversed_acronym.length > 1 then
                                         if letter.downcase == reversed_acronym[0].downcase then 
-                                          valid_word = true
+                                          reversed_acronym.slice!(0)
                                         end                                        
                                       else
-                                        if word.reverse[0] == reversed_acronym[0] then 
+                                        if word[0] == reversed_acronym[0] then 
                                           valid_word = true
-                                        end                                           
+                                        else
+                                          reversed_acronym = acronym_without_parenthesis.reverse
+                                          temp_meaning = []
+                                          break
+                                        end                                       
                                       end
                                  }
         end
-        
-        if valid_word then
-          reversed_acronym.slice!(0)
-          temp_meaning.unshift(word)              
-        else 
-          reversed_acronym = acronym_without_parenthesis.reverse
-          temp_meaning = []
-        end
-        
+                
+      end
+      
+      if valid_word then
+        reversed_acronym.slice!(0)
+        temp_meaning.unshift(word)       
+        #p "remaning acronym  ",reversed_acronym,word      
       end
     }
     
@@ -256,4 +258,5 @@ acr = Acronym.new('a','b')
 # puts acr.criterion2('(ACB)',['amarillo','casa','intruso','blanco'])
 # puts acr.criterion3('(USH)',['usher','syndrome','(USH)'])
 # puts acr.criterion4('(MTHFR)',['methylenetetrahydrofolate','reductase'])
+puts Acronym.get_meaning('(OXR1)',"Recently, oxidation resistance 1".split(/\s/))
 
