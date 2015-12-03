@@ -11,8 +11,12 @@ class WikiArticle < Article
     WikiArticle.new('','',[],[],0)
   end
   
+  def self.wikiArticle?(lines)
+    return lines[0].scan(/WDOC\d/).length > 0
+  end
+  
   def lines_to_article(lines)
-    if wikiArticle?(lines) then
+    if WikiArticle.wikiArticle?(lines) then
       WikiArticle.new(
         get_id(lines),
         get_title(lines),
@@ -31,22 +35,18 @@ class WikiArticle < Article
   
   attr_reader :last_updated
   
-  def get_title(lines)
-    lines[2]
-  end
-  
-  def get_sections(lines)
-    sections = get_separated_content(lines)
-    section_titles = []
-    sections.find_all {|section| section_titles << section.scan(/^\d\.\s.+/)}
-    return section_titles.flatten
-  end
-  
   private
-    def wikiArticle?(lines)
-      return get_id(lines).start_with?('WDOC')
+    def get_title(lines)
+      lines[2]
     end
-  
+    
+    def get_sections(lines)
+      sections = get_separated_content(lines)
+      section_titles = []
+      sections.find_all {|section| section_titles << section.scan(/^\d\.\s.+/)}
+      return section_titles.flatten
+    end
+    
     def get_id(lines) 
       lines[0]
     end
