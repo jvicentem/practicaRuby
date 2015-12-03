@@ -26,4 +26,4 @@ class ArticlesMap
 end
 
 #TEST
-puts ArticlesMap.articles
+#puts ArticlesMap.articles

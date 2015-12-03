@@ -19,7 +19,7 @@ class IOUtils
   end
   
   def get_articles ()
-    list_of_lines_to_articles(read_files)
+    return list_of_lines_to_articles(read_files)
   end
   
   attr_reader :external_source
@@ -46,8 +46,7 @@ class IOUtils
             list_of_articles << WikiArticle.create_empty_WikiArticle().lines_to_article(lines)
           end
           }
-      p list_of_articles
-      return list_of_articles.compact! #Por si se diera el caso, se borran valores nil del array
+      return list_of_articles
     end
   
 end

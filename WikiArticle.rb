@@ -43,7 +43,7 @@ class WikiArticle < Article
     def get_sections(lines)
       sections = get_separated_content(lines)
       section_titles = []
-      sections.find_all {|section| section_titles << section.scan(/^\d\.\s.+/)}
+      section_titles = sections.find_all {|section| section.scan(/^\d\.\s.+/).length > 0}
       return section_titles.flatten
     end
     
@@ -56,7 +56,7 @@ class WikiArticle < Article
     end    
     
     def get_content(lines)
-      super(lines).flatten!
+      ([] << get_title(lines) << ((get_separated_content(lines) - get_sections(lines)) - [get_title(lines)])).flatten!
     end
        
     def get_acronyms(lines)

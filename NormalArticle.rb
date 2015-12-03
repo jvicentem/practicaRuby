@@ -66,7 +66,7 @@ class NormalArticle < Article
     end
     
     def get_content(lines)
-      (super(lines) << get_abstract(lines)).flatten!
+      (([] << get_title(lines) << ((get_separated_content(lines) - get_sections(lines)) - [get_title(lines)])) << get_abstract(lines)).flatten!
     end
 
     def get_acronyms(lines)
