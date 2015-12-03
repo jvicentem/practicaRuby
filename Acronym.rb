@@ -22,7 +22,7 @@ class Acronym
   end
   
   def self.get_meaning(acronym, partial_line)
-    acronym_cleaned = if !StringUtils.has_any_of_these_characters_at_the_end?(acronym,[',','.',':',';']) then
+    acronym_cleaned = if StringUtils.has_any_of_these_characters_at_the_end?(acronym,[',','.',':',';']) then
                         StringUtils.remove_last_char!(acronym) 
                       else 
                         acronym 
