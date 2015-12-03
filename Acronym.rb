@@ -161,6 +161,7 @@ class Acronym
                                           reversed_acronym.slice!(0)
                                         end                                        
                                       else
+                                        #p "prueba ",word,reversed_acronym
                                         if word[0].downcase == reversed_acronym[0].downcase then 
                                           valid_word = true
                                           reversed_acronym.slice!(0)
@@ -168,8 +169,9 @@ class Acronym
                                           valid_word = false
                                           reversed_acronym = acronym_without_parenthesis.reverse
                                           temp_meaning = []
-                                          break
-                                        end                                       
+                                        end           
+                                        
+                                        break                            
                                       end
                                  }
         end
