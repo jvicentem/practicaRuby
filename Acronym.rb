@@ -18,7 +18,7 @@ class Acronym
   
   # http://rubular.com/
   def self.acronym?(word)
-    word.scan(/\A[\(+[A-Z]+][A-Z0-9]+\-?\d*\)[.:;,]?\Z/).length > 0
+    word.scan(/\A\([A-Z]+[A-Z0-9]+\-?\d*\)[.:;,]?\Z/).length > 0
   end
   
   def self.get_meaning(acronym, partial_line)
@@ -67,38 +67,6 @@ class Acronym
         break
       end
     }
-=begin
-    # Aquí hay cosas que están sin corregir.
-    word_index = 0
-    acronym_letter_index = 0
-    while ((temp_meaning.length != acronym_without_parenthesis.length) && 
-           (word_index < acronym_position) && 
-           (acronym_letter_index < acronym_without_parenthesis.length))
-           
-      word = improved_list_of_words[word_index].downcase
-      
-      if word[0] == reversed_acronym[acronym_letter_index].downcase then
-        if StringUtils.has_any_of_these_characters_at_the_end?(word) && !acronym?(word) then
-          temp_meaning.unshift(word)
-          acronym_letter_index  = acronym_letter_index + 1
-        else
-          if temp_meaning = (acronym_without_parenthesis.length - 1) then
-            temp_meaning.unshift(word)
-            acronym_letter_index  = acronym_letter_index + 1
-          else
-            temp_meaning = []
-            reversed_acronym = acronym.reverse
-            acronym_letter_index = 0              
-          end
-        end
-      else
-        temp_meaning = []
-        reversed_acronym = acronym.reverse
-        acronym_letter_index = 0
-      end    
-      word_index = word_index + 1    
-    end
-=end
     return Acronym.new(acronym_without_parenthesis, temp_meaning.join(" "))
   end
 
@@ -145,27 +113,7 @@ class Acronym
   
   def criterion3(acronym, words)
     acronym_without_parenthesis = StringUtils.remove_parenthesis(acronym)
-=begin     
-    improved_list_of_words = words
     
-    reversed_acronym = acronym_without_parenthesis
-    
-    temp_meaning = []
-      
-    meaning_found = false
-    
-    improved_list_of_words.each_with_index {|word, index|
-      if (temp_meaning.length != 2) then
-        if StringUtils.has_any_of_these_characters_at_the_end?(word) && !acronym_no_parenthesis?(word) && (word[0...acronym_without_parenthesis.length].downcase == acronym_without_parenthesis.downcase) then
-          temp_meaning << word
-          temp_meaning << improved_list_of_words[index+1]
-          break
-        else
-          temp_meaning = []
-        end
-      end
-    }
-=end
     improved_list_of_words = words.reverse
     
     reversed_acronym = acronym_without_parenthesis.reverse
@@ -260,4 +208,4 @@ end
 # puts acr.criterion3('(USH)',['usher','syndrome','(USH)'])
 # puts acr.criterion4('(MTHFR)',['methylenetetrahydrofolate','reductase'])
 # puts Acronym.get_meaning('(OXR1)',"Recently, oxidation resistance 1".split(/\s/))
-
+#p Acronym.acronym?('(A).')
