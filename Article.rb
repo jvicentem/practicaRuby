@@ -35,8 +35,8 @@ class Article
   def self.sort_articles_by_acronym(articles)
     hash = Hash.new { |hash, key| hash[key] = [] }
     articles.collect { |article|
-      if articles.acronyms.length > 0 then
-        articles.acronyms.each {|acr| [acr, hash[acr].push(article)]} 
+      if article.acronyms.length > 0 then
+        article.acronyms.each {|acr| [acr, hash[acr].push(article)]} 
       else
         ["No acronyms", hash["No acronyms"].push(article)]
       end

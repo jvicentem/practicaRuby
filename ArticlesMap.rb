@@ -27,9 +27,12 @@ class ArticlesMap
   def self.sort_articles_by_cluster
   end
 =end
+  private
+    def initialize 
+    end
 end
 
 #TEST
 #puts ArticlesMap.articles
 #p ArticlesMap.sort_articles_by_year()
-p ArticlesMap.sort_articles_by_source()
+#p ArticlesMap.sort_articles_by_source()
