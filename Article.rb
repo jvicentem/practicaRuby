@@ -19,7 +19,7 @@ class Article
 =end
   
   def get_separated_content(lines)
-    lines.drop(3).delete_if {|element| element == self.separator}
+    (lines.drop(3).delete_if {|element| element == self.separator}).compact!
   end
   
   def get_acronyms(lines)
@@ -31,10 +31,11 @@ class Article
     end
     return acronyms
   end
-  
+=begin 
   def get_content(lines)
     [] << self.get_title(lines) << ((get_separated_content(lines) - self.get_sections(lines)) - [self.get_title(lines)])
   end
+=end
   
   def to_s
     return "ID: #{self.id} \nTitle: #{self.title} \nSections: #{self.sections} \nAcronyms: #{self.acronyms.join(',')}\n"

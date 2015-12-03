@@ -11,8 +11,12 @@ class NormalArticle < Article
     NormalArticle.new('','',[],[],'','',0)
   end
   
+  def self.normalArticle?(lines)
+    return (lines[1].scan(/\d+/).length > 0) && (lines[2].scan(/\d+/).length > 0)
+  end
+  
   def lines_to_article(lines)
-    if normalArticle?(lines) then
+    if NormalArticle.normalArticle?(lines) then
       NormalArticle.new(
         get_id(lines),
         get_title(lines),
@@ -33,20 +37,16 @@ class NormalArticle < Article
   
   attr_reader :source, :abstract, :year
   
-  def get_title(lines)
-    get_separated_content(lines)[0]
-  end
-  
-  def get_sections(lines)
-    sections = get_separated_content(lines).drop(2)
-    section_titles = []
-    sections.each_with_index {|section, index| if index.even? then section_titles << section if !section.empty? end}
-    return section_titles
-  end
-  
   private
-    def normalArticle?(lines)
-      return get_id(lines).scan(/\d+/)
+    def get_title(lines)
+      get_separated_content(lines)[0]
+    end
+    
+    def get_sections(lines)
+      sections = get_separated_content(lines).drop(2)
+      section_titles = []
+      sections.each_with_index {|section, index| if index.even? then section_titles << section if !section.empty? end}
+      return section_titles
     end
   
     def get_source(lines)
@@ -66,7 +66,7 @@ class NormalArticle < Article
     end
     
     def get_content(lines)
-      (super(lines) << get_abstract(lines)).flatten!
+      (([] << get_title(lines) << ((get_separated_content(lines) - get_sections(lines)) - [get_title(lines)])) << get_abstract(lines)).flatten!
     end
 
     def get_acronyms(lines)
@@ -88,3 +88,4 @@ end
 # puts art.list_of_lines_to_articles([lineas])
 # puts art.to_s()
 # puts NormalArticle.list_of_lines_to_articles([lines])
+# puts NormalArticle.normalArticle?(['','11111','a'])
