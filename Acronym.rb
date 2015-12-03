@@ -201,7 +201,7 @@ class Acronym
     
     temp_meaning = []
       
-    improved_list_of_words.each {|word|
+    improved_list_of_words.each {|word|  
       valid_word = false
       if (!reversed_acronym.empty?()) then
         if !Acronym.acronym?(word) && !acronym_no_parenthesis?(word) && #Si la palabra no es un acrónimo
@@ -209,12 +209,15 @@ class Acronym
           word.reverse.each_char {|letter| 
                                       if reversed_acronym.length > 1 then
                                         if letter.downcase == reversed_acronym[0].downcase then 
+                                          valid_word = true
                                           reversed_acronym.slice!(0)
                                         end                                        
                                       else
-                                        if word[0] == reversed_acronym[0] then 
+                                        if word[0].downcase == reversed_acronym[0].downcase then 
                                           valid_word = true
+                                          reversed_acronym.slice!(0)
                                         else
+                                          valid_word = false
                                           reversed_acronym = acronym_without_parenthesis.reverse
                                           temp_meaning = []
                                           break
@@ -226,9 +229,7 @@ class Acronym
       end
       
       if valid_word then
-        reversed_acronym.slice!(0)
-        temp_meaning.unshift(word)       
-        #p "remaning acronym  ",reversed_acronym,word      
+        temp_meaning.unshift(word)        
       end
     }
     
@@ -248,7 +249,7 @@ class Acronym
 end
 
 # TEST
-acr = Acronym.new('a','b')
+# acr = Acronym.new('a','b')
 # puts acr.acronym?('(ABC)')
 # puts acr.acronym?('(ABC-1)')
 # words = ['amarillo','casa','Blanco','(ACB)']
@@ -258,5 +259,5 @@ acr = Acronym.new('a','b')
 # puts acr.criterion2('(ACB)',['amarillo','casa','intruso','blanco'])
 # puts acr.criterion3('(USH)',['usher','syndrome','(USH)'])
 # puts acr.criterion4('(MTHFR)',['methylenetetrahydrofolate','reductase'])
-puts Acronym.get_meaning('(OXR1)',"Recently, oxidation resistance 1".split(/\s/))
+# puts Acronym.get_meaning('(OXR1)',"Recently, oxidation resistance 1".split(/\s/))
 
