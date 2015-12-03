@@ -33,6 +33,13 @@ class WikiArticle < Article
     super + "Last updated: #{self.last_updated}\n\n"
   end
   
+  def self.sort_wikiArticles_by_year(wiki_articles)
+    wiki_articles = wiki_articles.sort_by {|art| art.last_updated}
+    hash = Hash.new { |hash, key| hash[key] = [] }
+    wiki_articles.collect { |article| [article.last_updated, hash[article.last_updated].push(article)] }
+    return hash
+  end
+  
   attr_reader :last_updated
   
   private
@@ -41,7 +48,7 @@ class WikiArticle < Article
     end
     
     def get_sections(lines)
-      sections = get_separated_content(lines)
+      sections = get_separated_content(lines).compact
       section_titles = []
       section_titles = sections.find_all {|section| section.scan(/^\d\.\s.+/).length > 0}
       return section_titles.flatten

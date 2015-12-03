@@ -35,6 +35,20 @@ class NormalArticle < Article
     super + "Source: #{self.source} \nAbstract: #{self.abstract} \nYear: #{self.year}\n\n"
   end
   
+  def self.sort_normalArticles_by_year(normal_articles)
+    normal_articles = normal_articles.sort_by {|art| art.year}
+    hash = Hash.new { |hash, key| hash[key] = [] }
+    normal_articles.collect { |article| [article.year, hash[article.year].push(article)] }
+    return hash
+  end
+  
+  def self.sort_normalArticles_by_source(normal_articles)
+    normal_articles = normal_articles.sort_by {|art| art.source}
+    hash = Hash.new { |hash, key| hash[key] = [] }
+    normal_articles.collect { |article| [article.source, hash[article.source].push(article)] }
+    return hash
+  end
+  
   attr_reader :source, :abstract, :year
   
   private
@@ -76,7 +90,7 @@ class NormalArticle < Article
 end
 
 # TEST
-# art = NormalArticle.new("","",[],[],"","",0)
+#art = NormalArticle.new("","",[],[],"","",0)
 # lines = ["source","id","year","--","title","--","abstract","--","section title 1","section content 1","--","section title 2","section content 2","--"]
 # puts art.get_source(lines);
 # puts art.get_id(lines);
@@ -89,3 +103,4 @@ end
 # puts art.to_s()
 # puts NormalArticle.list_of_lines_to_articles([lines])
 # puts NormalArticle.normalArticle?(['','11111','a'])
+#p NormalArticle.sort_normalArticles_by_year([NormalArticle.new("","",[],[],"","",2015),NormalArticle.new("","",[],[],"","",2015),NormalArticle.new("","",[],[],"","",2016)])

@@ -39,13 +39,13 @@ class IOUtils
         list_of_lines.each {|lines| list_of_articles << (Object.const_get child_class).classify.lines_to_article(lines)}
       }
 =end    
-        list_of_lines.each {|lines| 
-          if NormalArticle.normalArticle?(lines) then
-            list_of_articles << NormalArticle.create_empty_normalArticle().lines_to_article(lines)
-          elsif WikiArticle.wikiArticle?(lines)
-            list_of_articles << WikiArticle.create_empty_WikiArticle().lines_to_article(lines)
-          end
-          }
+      list_of_lines.each {|lines| 
+        if NormalArticle.normalArticle?(lines) then
+          list_of_articles << NormalArticle.create_empty_normalArticle().lines_to_article(lines)
+        elsif WikiArticle.wikiArticle?(lines)
+          list_of_articles << WikiArticle.create_empty_WikiArticle().lines_to_article(lines)
+        end
+        }
       return list_of_articles
     end
   
