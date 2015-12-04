@@ -15,14 +15,21 @@ class Functions
   end
   
   def self.get_sort_articles_by_source_hash_table
+    self.articlesMaps()[1]
   end
   
   def self.get_sort_articles_by_year_hash_table
     self.articlesMaps()[2]
   end
   
+  #1
   def self.articles_by_year(year)
     self.get_sort_articles_by_year_hash_table()[year]
+  end
+  
+  #2
+  def self.sources
+    self.get_sort_articles_by_source_hash_table().keys
   end
     
   private
@@ -35,4 +42,5 @@ end
 #p StringUtils.has_any_of_these_characters_at_the_end?('(PCR).',['.',',',':',';'])
 #p StringUtils.remove_last_char!('(PCR).')
 #p Functions.articlesMaps
-p Functions.articles_by_year("2015")
+#p Functions.articles_by_year("2015")
+#p Functions.sources()
