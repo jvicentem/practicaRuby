@@ -33,6 +33,18 @@ class ArticlesMap
   def self.sort_articles_by_acronym_only_title
     Article.sort_titles_by_acronym(self.articles)
   end
+  
+  def self.sort_articles_by_source_and_acronym
+    hash_acronyms = Article.sort_articles_by_acronym(self.articles)
+    
+    hash_acronyms.each_key() {|key| 
+        articles_list = hash_acronyms[key]
+        hash_source = NormalArticle.sort_normalArticles_by_source_only_title(
+                                                articles_list.select { |art| art.is_a?(NormalArticle) }
+                                                )
+        hash_acronyms[key] = hash_source
+    }
+  end
 
 =begin  
   def self.sort_articles_by_cluster

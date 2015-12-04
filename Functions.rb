@@ -3,7 +3,11 @@ require_relative 'Acronym'
 
 class Functions
   def self.initialize_articlesMaps
-    [] << ArticlesMap.sort_articles_by_acronym() << ArticlesMap.sort_articles_by_source() << ArticlesMap.sort_articles_by_year() << ArticlesMap.sort_articles_by_acronym_only_title()
+    [] << ArticlesMap.sort_articles_by_acronym() << 
+      ArticlesMap.sort_articles_by_source() << 
+      ArticlesMap.sort_articles_by_year() << 
+      ArticlesMap.sort_articles_by_acronym_only_title() <<
+      ArticlesMap.sort_articles_by_source_and_acronym()
   end
   
   @@articlesMaps = Functions.initialize_articlesMaps()
@@ -23,9 +27,12 @@ class Functions
     self.articlesMaps()[2]
   end
   
-
   def self.get_sort_articles_by_acronym_only_title_hash_table
     self.articlesMaps()[3]
+  end
+  
+  def self.get_sort_articles_by_source_and_acronym_hash_table
+    self.articlesMaps()[4]
   end
   
   #1
@@ -42,6 +49,11 @@ class Functions
   def self.articles_by_acronym(acronym)
     self.get_sort_articles_by_acronym_only_title_hash_table()[acronym]
   end
+  
+  #4
+  def self.articles_by_source_and_acronym(source,acronym)
+    self.get_sort_articles_by_source_and_acronym_hash_table()[acronym].values.flatten!
+  end
     
   private
     def initialize
@@ -56,3 +68,5 @@ end
 #p Functions.articles_by_year("2015")
 #p Functions.sources()
 #p Functions.articles_by_acronym("OXR1")
+#p Functions.get_sort_articles_by_source_and_acronym_hash_table()
+#p Functions.articles_by_source_and_acronym("Brain","OXR1")
