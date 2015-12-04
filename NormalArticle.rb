@@ -57,6 +57,13 @@ class NormalArticle < Article
     return hash
   end
   
+  def self.sort_normalArticles_acronyms_by_year(normal_articles)
+    normal_articles = normal_articles.sort_by {|art| art.year}
+    hash = Hash.new { |hash, key| hash[key] = [] }
+    normal_articles.collect { |article| [article.year, hash[article.year].push(article.acronyms)] }
+    return hash    
+  end
+  
   attr_reader :source, :abstract, :year
   
   private
