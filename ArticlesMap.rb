@@ -8,7 +8,7 @@ class ArticlesMap
     @@articles
   end
   
-  def self.sort_articles_by_year
+  def self.sort_articles_by_year_only_title
     map1 = WikiArticle.sort_wikiArticles_by_year(self.articles.select { |art| art.is_a?(WikiArticle) })
     map2 = NormalArticle.sort_normalArticles_by_year(self.articles.select { |art| art.is_a?(NormalArticle) })
     
@@ -20,6 +20,13 @@ class ArticlesMap
     }
     
     return map1
+  end
+  
+  def self.sort_acronyms_by_year
+    map1 = WikiArticle.sort_wikiArticles_acronyms_by_year(self.articles.select { |art| art.is_a?(WikiArticle) })
+    map2 = NormalArticle.sort_normalArticles_acronyms_by_year(self.articles.select { |art| art.is_a?(NormalArticle) })
+    
+    map1.merge(map2){|key, oldval, newval| newval + oldval}
   end
   
   def self.sort_articles_by_source

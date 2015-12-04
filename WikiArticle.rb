@@ -41,6 +41,13 @@ class WikiArticle < Article
     return hash
   end
   
+  def self.sort_wikiArticles_acronyms_by_year(wiki_articles)
+    wiki_articles = wiki_articles.sort_by {|art| art.last_updated}
+    hash = Hash.new { |hash, key| hash[key] = [] }
+    wiki_articles.collect { |article| [article.last_updated, hash[article.last_updated].push(article.acronyms)] }
+    return hash    
+  end
+  
   attr_reader :last_updated
   
   private
