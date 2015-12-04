@@ -41,7 +41,8 @@ class Article
     hash = Hash.new { |hash, key| hash[key] = [] }
     articles.collect { |article|
       if article.acronyms.length > 0 then
-        article.acronyms.each {|acr| [acr, hash[acr].push(article)]} 
+        article.acronyms.each {|acr| [acr.acronym, hash[acr.acronym].push(article)]} 
+          # Echar un ojo a esto...
       else
         ["No acronyms", hash["No acronyms"].push(article)]
       end
@@ -57,6 +58,18 @@ class Article
   
   def self.sort_list_of_articles_by_title(articles) 
     articles.sort { |art1,art2| art1.title <=> art2.title }
+  end
+  
+  def self.sort_titles_by_acronym(articles) 
+    hash_acronyms = self.sort_articles_by_acronym(articles)
+    
+    hash_acronyms.each_key {|key| 
+      titles_list = []
+      hash_acronyms[key].each {|art| titles_list << art.title}
+      hash_acronyms[key] = titles_list
+    }
+    
+    return hash_acronyms
   end
   
   def to_s
