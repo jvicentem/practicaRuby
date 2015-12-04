@@ -41,6 +41,12 @@ class Article
         ["No acronyms", hash["No acronyms"].push(article)]
       end
     }
+    
+    hash.each_key {|key| 
+      articles_list = hash[key]
+      articles_list_sorted = articles_list.sort { |art1,art2| art1.title <=> art2.title }
+      hash[key] = articles_list_sorted
+    }
     return hash
   end
   
