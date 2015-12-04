@@ -50,6 +50,13 @@ class NormalArticle < Article
     return hash
   end
   
+  def self.sort_normalArticles_by_source_only_title(normal_articles)
+    normal_articles = normal_articles.sort_by {|art| art.source}
+    hash = Hash.new { |hash, key| hash[key] = [] }
+    normal_articles.collect { |article| [article.source, hash[article.source].push(article.title)] }
+    return hash
+  end
+  
   attr_reader :source, :abstract, :year
   
   private
