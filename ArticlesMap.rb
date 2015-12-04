@@ -29,6 +29,10 @@ class ArticlesMap
   def self.sort_articles_by_acronym
     Article.sort_articles_by_acronym(self.articles)
   end
+  
+  def self.sort_articles_by_acronym_only_title
+    Article.sort_titles_by_acronym(self.articles)
+  end
 
 =begin  
   def self.sort_articles_by_cluster

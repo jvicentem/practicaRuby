@@ -1,8 +1,9 @@
 require_relative 'ArticlesMap'
+require_relative 'Acronym'
 
 class Functions
   def self.initialize_articlesMaps
-    [] << ArticlesMap.sort_articles_by_acronym() << ArticlesMap.sort_articles_by_source() << ArticlesMap.sort_articles_by_year()
+    [] << ArticlesMap.sort_articles_by_acronym() << ArticlesMap.sort_articles_by_source() << ArticlesMap.sort_articles_by_year() << ArticlesMap.sort_articles_by_acronym_only_title()
   end
   
   @@articlesMaps = Functions.initialize_articlesMaps()
@@ -22,6 +23,11 @@ class Functions
     self.articlesMaps()[2]
   end
   
+
+  def self.get_sort_articles_by_acronym_only_title_hash_table
+    self.articlesMaps()[3]
+  end
+  
   #1
   def self.articles_by_year(year)
     self.get_sort_articles_by_year_hash_table()[year]
@@ -30,6 +36,11 @@ class Functions
   #2
   def self.sources
     self.get_sort_articles_by_source_hash_table().keys
+  end
+  
+  #3
+  def self.articles_by_acronym(acronym)
+    self.get_sort_articles_by_acronym_only_title_hash_table()[acronym]
   end
     
   private
@@ -44,3 +55,4 @@ end
 #p Functions.articlesMaps
 #p Functions.articles_by_year("2015")
 #p Functions.sources()
+#p Functions.articles_by_acronym("OXR1")
