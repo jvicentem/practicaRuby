@@ -13,6 +13,13 @@ class ArticlesMap
     map2 = NormalArticle.sort_normalArticles_by_year(self.articles.select { |art| art.is_a?(NormalArticle) })
     
     map1.merge(map2){|key, oldval, newval| newval + oldval}
+      
+    map1.each_key() {|key| 
+      articles_list = Article.sort_list_of_articles_by_title(map1[key])
+      map1[key] = articles_list
+    }
+    
+    return map1
   end
   
   def self.sort_articles_by_source

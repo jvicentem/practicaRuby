@@ -55,6 +55,10 @@ class Article
     return hash
   end
   
+  def self.sort_list_of_articles_by_title(articles) 
+    articles.sort { |art1,art2| art1.title <=> art2.title }
+  end
+  
   def to_s
     return "ID: #{self.id} \nTitle: #{self.title} \nSections: #{self.sections} \nAcronyms: #{self.acronyms.join(',')}\n"
   end
