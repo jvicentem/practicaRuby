@@ -25,8 +25,8 @@ class Article
   def get_acronyms(lines)
     lines.compact.each do |line|
       words_list = line.split(/\s/)
-      words_list.each_with_index {|word, index|
-                                    acronyms << Acronym.get_meaning(word,words_list[0...index]) if Acronym.acronym?(word)
+      words_list.each_with_index {|word, index|                                               
+                                    acronyms << Acronym.get_meaning(word,words_list[0...index]).count_appearances(lines) if Acronym.acronym?(word)
                                  }
     end
     return acronyms

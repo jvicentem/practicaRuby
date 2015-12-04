@@ -2,10 +2,28 @@ require_relative 'StringUtils'
 
 class Acronym
   def initialize (acronym,meaning)
-    @acronym, @meaning = acronym, meaning
+    @acronym, @meaning, @times = acronym, meaning, 0
   end
   
-  attr_reader :acronym, :meaning
+  attr_reader :acronym, :meaning, :times
+  attr_writer :times
+  
+  def count_appearances(lines)
+    lines.each {|line| 
+      words_list = line.split(/\s/)
+      words_list.each { |word|
+        word_modified = word.downcase
+        acronym_modified = self.acronym.downcase
+        new_appearance if word_modified.scan(/#{acronym_modified}/).length > 0
+      }
+    }
+    
+    return self
+  end
+  
+  def new_appearance
+    self.times = self.times + 1
+  end
   
   def to_s
     "Acrónimo = #{self.acronym()}\nSignificado = #{self.meaning}\n\n"
@@ -210,3 +228,4 @@ end
 # puts acr.criterion4('(MTHFR)',['methylenetetrahydrofolate','reductase'])
 # puts Acronym.get_meaning('(OXR1)',"Recently, oxidation resistance 1".split(/\s/))
 #p Acronym.acronym?('(A).')
+#p Acronym.get_meaning('(OXR1)',"Recently, oxidation resistance 1".split(/\s/)).count_appearances(["Recently, (OXR1) oxidation resistance 1 (OXR1) (OXR1) (OXR1)"])

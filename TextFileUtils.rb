@@ -24,7 +24,7 @@ lista con las líneas de texto de cada artículo.
     list_of_files = get_file_paths_from_directory
     list_of_lines = []
     list_of_files.each {|f| list_of_lines << read_file(f)}
-    return list_of_lines
+    return list_of_lines.reject(&:nil?)
   end
   
   private
@@ -45,6 +45,6 @@ lista con las líneas de texto de cada artículo.
         end
       end
       
-      return lines     
+      return lines.reject(&:nil?)    
     end
 end
