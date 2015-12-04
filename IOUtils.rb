@@ -24,7 +24,7 @@ class IOUtils
   
   attr_reader :external_source
   
-  #private
+  private
     def read_files
       self.external_source.read_files
     end
@@ -52,3 +52,4 @@ class IOUtils
 end
 
 #TEST
+#p IOUtils.new().get_articles()

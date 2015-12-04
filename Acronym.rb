@@ -29,6 +29,10 @@ class Acronym
     "Acrónimo = #{self.acronym()}\nSignificado = #{self.meaning}\n\n"
   end
   
+  def ==(acr)
+   self.acronym == acr.acronym
+  end
+  
   def self.create_empty_Acronym
     Acronym.new('','')
   end
