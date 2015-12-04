@@ -37,6 +37,13 @@ class WikiArticle < Article
     wiki_articles = wiki_articles.sort_by {|art| art.last_updated}
     hash = Hash.new { |hash, key| hash[key] = [] }
     wiki_articles.collect { |article| [article.last_updated, hash[article.last_updated].push(article)] }
+      
+    hash.each_key {|key| 
+      articles_list = hash[key]
+      articles_list_sorted = articles_list.sort { |art1,art2| art1.title <=> art2.title }
+      hash[key] = articles_list_sorted
+    }
+
     return hash
   end
   
