@@ -1,15 +1,16 @@
 require_relative 'ArticlesMap'
-require_relative 'Acronym'
 
 class Functions
   def self.initialize_articlesMaps
-    [] << ArticlesMap.sort_articles_by_acronym() << 
+    hash_tables_list = []
+    hash_tables_list << ArticlesMap.sort_articles_by_acronym() << 
       ArticlesMap.sort_articles_by_source() << 
       ArticlesMap.sort_articles_by_year_only_title() << 
       ArticlesMap.sort_articles_by_acronym_only_title() <<
       ArticlesMap.sort_articles_by_source_and_acronym() <<
       ArticlesMap.sort_acronyms_by_year() <<
-      ArticlesMap.sort_acronyms_by_id()
+      ArticlesMap.sort_acronyms_by_id() <<
+      ArticlesMap.sort_articles_without_acronyms(hash_tables_list[0])
   end
   
   @@articlesMaps = Functions.initialize_articlesMaps()
@@ -19,6 +20,7 @@ class Functions
   end
   
   def self.get_sort_articles_by_acronym_hash_table
+    self.articlesMaps()[0]
   end
   
   def self.get_sort_articles_by_source_hash_table
@@ -43,6 +45,10 @@ class Functions
   
   def self.get_sort_acronyms_by_id_hash_table
     self.articlesMaps()[6]
+  end
+  
+  def self.get_sort_articles_without_acronyms_hash_table
+    self.articlesMaps()[7]
   end
   
   #1
@@ -74,6 +80,11 @@ class Functions
   def self.acronyms_by_id(id)
     self.get_sort_acronyms_by_id_hash_table()
   end
+  
+  #7
+  def self.articles_without_acronyms()
+    self.get_sort_articles_without_acronyms_hash_table
+  end
     
   private
     def initialize
@@ -93,3 +104,4 @@ end
 #p Functions.acronyms_by_year("2015")
 #p Functions.acronyms_by_id("4407188")
 #p Functions.get_sort_acronyms_by_id_hash_table()
+p Functions.articles_without_acronyms()
