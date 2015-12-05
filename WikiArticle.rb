@@ -2,13 +2,13 @@ require_relative 'Article'
 
 class WikiArticle < Article
   
-  def initialize(id, title, sections, acronyms, last_updated)
+  def initialize(id, title, sections, acronyms, last_updated, introduction)
     super(id, title, '--', sections, acronyms)
-    @last_updated = last_updated
+    @last_updated,@introduction = last_updated, introduction
   end
   
   def self.create_empty_WikiArticle
-    WikiArticle.new('','',[],[],0)
+    WikiArticle.new('','',[],[],0,[])
   end
   
   def self.wikiArticle?(lines)
@@ -22,7 +22,8 @@ class WikiArticle < Article
         get_title(lines),
         get_sections(lines),
         get_acronyms(get_content(lines)),
-        get_last_updated(lines)
+        get_last_updated(lines),
+        get_introduction(lines)
       )
     else
       return nil
@@ -30,7 +31,7 @@ class WikiArticle < Article
   end
   
   def to_s
-    super + "Last updated: #{self.last_updated}\n\n"
+    super + "(#{self.last_updated}) \nIntroduction: #{self.introduction.join('\n')} \nSection number: #{self.sections.length} \nSections:\n#{self.sections.join("\n")}\n- - - - - - - - - - - - - - -\n\n"
   end
   
   def self.sort_wikiArticles_by_year(wiki_articles)
@@ -48,7 +49,7 @@ class WikiArticle < Article
     return hash    
   end
   
-  attr_reader :last_updated
+  attr_reader :last_updated, :introduction
   
   private
     def get_title(lines)
@@ -78,6 +79,15 @@ class WikiArticle < Article
       super(lines)
     end
     
+    def get_introduction(lines)
+      sections = get_separated_content(lines).compact
+      section_titles = []
+      sections.each {|section| 
+        if section.scan(/^2\.\s.+/).length > 0 then break end
+        section_titles << section
+      }
+      return section_titles[0] 
+    end
 end
 
 # TEST

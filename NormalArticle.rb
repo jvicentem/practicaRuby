@@ -32,7 +32,7 @@ class NormalArticle < Article
   end
   
   def to_s
-    super + "Source: #{self.source} \nAbstract: #{self.abstract} \nYear: #{self.year}\n\n"
+    super + "(#{self.year}) \nAbstract: #{self.abstract} \nSection number: #{self.sections.length} \nSections:\n#{self.sections.join("\n")}\n- - - - - - - - - - - - - - -\n\n"
   end
   
   def self.sort_normalArticles_by_year(normal_articles)
