@@ -85,7 +85,7 @@ class Article
   end
   
   def to_s
-    return "ID: #{self.id} \nTitle: #{self.title} \nSections: #{self.sections} \nAcronyms: #{self.acronyms.join(',')}\n"
+    return "- - - - - - - - - - - - - - -\nTitle: #{self.title} "
   end
   
   attr_reader :id, :title, :separator, :sections, :acronyms

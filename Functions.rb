@@ -85,6 +85,11 @@ class Functions
   def self.articles_without_acronyms()
     self.get_sort_articles_without_acronyms_hash_table
   end
+  
+  #8
+  def self.articles_by_acronym(acronym)
+    self.get_sort_articles_by_acronym_hash_table()[acronym].each {|element| element.to_s}
+  end
     
   private
     def initialize
@@ -104,4 +109,5 @@ end
 #p Functions.acronyms_by_year("2015")
 #p Functions.acronyms_by_id("4407188")
 #p Functions.get_sort_acronyms_by_id_hash_table()
-p Functions.articles_without_acronyms()
+#p Functions.articles_without_acronyms()
+puts Functions.articles_by_acronym("OXR1")
