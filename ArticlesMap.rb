@@ -53,8 +53,12 @@ class ArticlesMap
     }
   end
   
-  def self. sort_acronyms_by_id()
+  def self.sort_acronyms_by_id()
     Article.sort_acronyms_by_id(self.articles)
+  end
+  
+  def self.sort_articles_without_acronyms(hash_table)
+    Article.get_id_and_title_of_articles_without_acronyms(hash_table)
   end
 
 =begin  

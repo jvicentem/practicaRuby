@@ -78,6 +78,12 @@ class Article
     return hash
   end
   
+  def self.get_id_and_title_of_articles_without_acronyms(hash_table)
+    articles_list = []
+    hash_table["No acronyms"].each {|art| articles_list << [art.id,art.title]}
+    return articles_list
+  end
+  
   def to_s
     return "ID: #{self.id} \nTitle: #{self.title} \nSections: #{self.sections} \nAcronyms: #{self.acronyms.join(',')}\n"
   end
