@@ -8,7 +8,8 @@ class Functions
       ArticlesMap.sort_articles_by_year_only_title() << 
       ArticlesMap.sort_articles_by_acronym_only_title() <<
       ArticlesMap.sort_articles_by_source_and_acronym() <<
-      ArticlesMap.sort_acronyms_by_year()
+      ArticlesMap.sort_acronyms_by_year() <<
+      ArticlesMap.sort_acronyms_by_id()
   end
   
   @@articlesMaps = Functions.initialize_articlesMaps()
@@ -36,8 +37,12 @@ class Functions
     self.articlesMaps()[4]
   end
   
-  def self.get_sort_acronyms_by_year
+  def self.get_sort_acronyms_by_year_hash_table
     self.articlesMaps()[5]
+  end
+  
+  def self.get_sort_acronyms_by_id_hash_table
+    self.articlesMaps()[6]
   end
   
   #1
@@ -62,7 +67,12 @@ class Functions
   
   #5
   def self.acronyms_by_year(year)
-    self.get_sort_acronyms_by_year[year].flatten!
+    self.get_sort_acronyms_by_year_hash_table[year].flatten!
+  end
+  
+  #6
+  def self.acronyms_by_id(id)
+    self.get_sort_acronyms_by_id_hash_table()
   end
     
   private
@@ -81,3 +91,5 @@ end
 #p Functions.get_sort_articles_by_source_and_acronym_hash_table()
 #p Functions.articles_by_source_and_acronym("Brain","OXR1")
 #p Functions.acronyms_by_year("2015")
+#p Functions.acronyms_by_id("4407188")
+#p Functions.get_sort_acronyms_by_id_hash_table()
