@@ -37,6 +37,10 @@ class Article
     return acronyms
   end
   
+  def self.sort_list_of_articles_by_title(articles) 
+    articles.sort { |art1,art2| art1.title <=> art2.title }
+  end
+  
   def self.sort_articles_by_acronym(articles)
     hash = Hash.new { |hash, key| hash[key] = [] }
     articles.collect { |article|
@@ -56,10 +60,6 @@ class Article
     return hash
   end
   
-  def self.sort_list_of_articles_by_title(articles) 
-    articles.sort { |art1,art2| art1.title <=> art2.title }
-  end
-  
   def self.sort_titles_by_acronym(articles) 
     hash_acronyms = self.sort_articles_by_acronym(articles)
     
@@ -70,6 +70,12 @@ class Article
     }
     
     return hash_acronyms
+  end
+  
+  def self.sort_acronyms_by_id(articles)
+    hash = Hash.new { |hash, key| hash[key] = [] }
+    articles.each {|art| hash[art.id] = art.acronyms}
+    return hash
   end
   
   def to_s

@@ -52,6 +52,10 @@ class ArticlesMap
         hash_acronyms[key] = hash_source
     }
   end
+  
+  def self. sort_acronyms_by_id()
+    Article.sort_acronyms_by_id(self.articles)
+  end
 
 =begin  
   def self.sort_articles_by_cluster
