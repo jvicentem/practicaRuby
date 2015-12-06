@@ -1,4 +1,5 @@
 require_relative 'ArticlesMap'
+require_relative 'Cluster'
 
 class Functions
   def self.initialize_articlesMaps
@@ -11,7 +12,7 @@ class Functions
       ArticlesMap.sort_acronyms_by_year() <<
       ArticlesMap.sort_acronyms_by_id() <<
       ArticlesMap.sort_articles_without_acronyms(hash_tables_list[0]) <<
-      ArticlesMap.sort_articles_by_cluster()
+      Cluster.new()
   end
   
   @@articlesMaps = Functions.initialize_articlesMaps()
@@ -52,7 +53,7 @@ class Functions
     self.articlesMaps()[7]
   end
   
-  def self.get_sort_articles_by_cluster_hash_table
+  def self.get_sort_articles_by_cluster
     self.articlesMaps()[8]
   end
   
@@ -98,7 +99,21 @@ class Functions
   
   #9
   def self.group_articles
-    self.get_sort_articles_by_cluster_hash_table
+    self.get_sort_articles_by_cluster.sort_articles_by_cluster_only_id_and_title
+  end
+  
+  #10
+  def self.get_stats
+    cluster = self.get_sort_articles_by_cluster
+    
+    stats = {
+      "Number of clusters " => cluster.number_of_clusters,
+      "Average number of scientific articles " => cluster.average_number_of_NormalArticles,
+      "Average number of WikiPedia articles " => cluster.average_number_of_WikiArticles,
+      "Number of clusters with all articles written in the same year " => cluster.number_of_clusters_with_articles_written_in_the_same_year,
+      "Number of clusters with all articles written in the different years " => cluster.number_of_clusters_with_articles_written_in_the_different_year,
+      "Number of clusters with only one article " => cluster.number_of_clusters_with_one_article
+    }
   end
     
   private
@@ -122,3 +137,4 @@ end
 #p Functions.articles_without_acronyms()
 #puts Functions.articles_by_acronym("OXR1")
 #p Functions.group_articles()
+#p Functions.get_stats

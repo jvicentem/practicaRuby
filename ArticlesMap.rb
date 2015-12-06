@@ -60,10 +60,6 @@ class ArticlesMap
   def self.sort_articles_without_acronyms(hash_table)
     Article.get_id_and_title_of_articles_without_acronyms(hash_table)
   end
- 
-  def self.sort_articles_by_cluster
-    Article.sort_articles_by_most_repeated_acronyms(self.articles)
-  end
   
   private
     def initialize 
