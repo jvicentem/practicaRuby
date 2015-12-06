@@ -84,6 +84,19 @@ class Article
     return articles_list
   end
   
+  def self.sort_articles_by_most_repeated_acronyms(articles)
+    hash = Hash.new { |hash, key| hash[key] = [] }
+      
+    articles.each {|art|
+      acronyms = art.acronyms
+      most_repeated_acronym = Acronym.most_repeated_acronym(acronyms)
+      
+      hash[most_repeated_acronym.acronym] << (art.id + " - " + art.title)
+    }
+    
+    return hash
+  end
+  
   def to_s
     return "- - - - - - - - - - - - - - -\nTitle: #{self.title} "
   end

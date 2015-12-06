@@ -25,6 +25,18 @@ class Acronym
     self.times = self.times + 1
   end
   
+  def self.most_repeated_acronym(acronyms)
+    max_acr = nil
+    times = 0
+    
+    acronyms.each {|acr|
+      max_acr = acr if acr.times > times
+      times = acr.times
+    }
+    
+    return max_acr
+  end
+  
   def to_s
     "Acrónimo = #{self.acronym()}\nSignificado = #{self.meaning}\n\n"
   end
