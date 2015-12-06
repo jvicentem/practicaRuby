@@ -49,6 +49,12 @@ class WikiArticle < Article
     return hash    
   end
   
+  def self.year_of_articles(articles)
+    list = []
+    articles.each {|art| list << art.last_updated if art.is_a?(WikiArticle)}
+    return list
+  end
+  
   attr_reader :last_updated, :introduction
   
   private

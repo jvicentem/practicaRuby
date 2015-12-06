@@ -64,6 +64,12 @@ class NormalArticle < Article
     return hash    
   end
   
+  def self.year_of_articles(articles)
+    list = []
+    articles.each {|art| list << art.year if art.is_a?(NormalArticle)}
+    return list
+  end
+  
   attr_reader :source, :abstract, :year
   
   private

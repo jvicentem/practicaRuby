@@ -91,7 +91,21 @@ class Article
       acronyms = art.acronyms
       most_repeated_acronym = Acronym.most_repeated_acronym(acronyms)
       
-      hash[most_repeated_acronym.acronym] << (art.id + " - " + art.title)
+      hash[most_repeated_acronym.acronym] << art
+    }
+    
+    return hash
+  end
+  
+  def self.sort_articles_by_most_repeated_acronyms_only_title_and_id(hash)      
+    hash.each_key {|key|
+      articles = hash[key]
+      
+      id_and_title_list = []
+        
+      articles.each{|art| id_and_title_list << (art.id + " - " + art.title)}
+        
+      hash[key] = id_and_title_list
     }
     
     return hash
