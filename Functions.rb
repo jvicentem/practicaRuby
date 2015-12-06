@@ -10,7 +10,8 @@ class Functions
       ArticlesMap.sort_articles_by_source_and_acronym() <<
       ArticlesMap.sort_acronyms_by_year() <<
       ArticlesMap.sort_acronyms_by_id() <<
-      ArticlesMap.sort_articles_without_acronyms(hash_tables_list[0])
+      ArticlesMap.sort_articles_without_acronyms(hash_tables_list[0]) <<
+      ArticlesMap.sort_articles_by_cluster()
   end
   
   @@articlesMaps = Functions.initialize_articlesMaps()
@@ -21,7 +22,7 @@ class Functions
   
   def self.get_sort_articles_by_acronym_hash_table
     self.articlesMaps()[0]
-  end
+  end 
   
   def self.get_sort_articles_by_source_hash_table
     self.articlesMaps()[1]
@@ -49,6 +50,10 @@ class Functions
   
   def self.get_sort_articles_without_acronyms_hash_table
     self.articlesMaps()[7]
+  end
+  
+  def self.get_sort_articles_by_cluster_hash_table
+    self.articlesMaps()[8]
   end
   
   #1
@@ -90,6 +95,11 @@ class Functions
   def self.articles_by_acronym(acronym)
     self.get_sort_articles_by_acronym_hash_table()[acronym].each {|element| element.to_s}
   end
+  
+  #9
+  def self.group_articles
+    self.get_sort_articles_by_cluster_hash_table
+  end
     
   private
     def initialize
@@ -110,4 +120,5 @@ end
 #p Functions.acronyms_by_id("4407188")
 #p Functions.get_sort_acronyms_by_id_hash_table()
 #p Functions.articles_without_acronyms()
-puts Functions.articles_by_acronym("OXR1")
+#puts Functions.articles_by_acronym("OXR1")
+#p Functions.group_articles()
