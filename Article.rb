@@ -9,14 +9,6 @@ class Article
     @sections = sections
     @acronyms = acronyms
   end
-
-=begin  
-  def self.descendants
-    list = []
-    Dir.glob('./**/*.rb').each {|classs| list << classs.scan(/\w+[aA]rticle/)}
-    return list.flatten!
-  end
-=end
   
   def get_separated_content(lines)
     lines.drop(3).delete_if {|element| element == self.separator}
