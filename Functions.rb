@@ -13,6 +13,8 @@ class Functions
       ArticlesMap.sort_acronyms_by_id() <<
       ArticlesMap.sort_articles_without_acronyms(hash_tables_list[0]) <<
       Cluster.new()
+   
+   return hash_tables_list
   end
   
   @@articlesMaps = Functions.initialize_articlesMaps()
@@ -69,7 +71,7 @@ class Functions
   
   #3
   def self.articles_by_acronym(acronym)
-    self.get_sort_articles_by_acronym_only_title_hash_table()[acronym]
+    self.get_sort_articles_by_acronym_only_title_hash_table[acronym]
   end
   
   #4
@@ -84,7 +86,7 @@ class Functions
   
   #6
   def self.acronyms_by_id(id)
-    self.get_sort_acronyms_by_id_hash_table()
+    self.get_sort_acronyms_by_id_hash_table()[id]
   end
   
   #7
@@ -93,8 +95,8 @@ class Functions
   end
   
   #8
-  def self.articles_by_acronym(acronym)
-    self.get_sort_articles_by_acronym_hash_table()[acronym].each {|element| element.to_s}
+  def self.articles_by_source(source)
+    self.get_sort_articles_by_source_hash_table()[source]
   end
   
   #9
@@ -107,12 +109,12 @@ class Functions
     cluster = self.get_sort_articles_by_cluster
     
     stats = {
-      "Number of clusters " => cluster.number_of_clusters,
-      "Average number of scientific articles " => cluster.average_number_of_NormalArticles,
-      "Average number of WikiPedia articles " => cluster.average_number_of_WikiArticles,
-      "Number of clusters with all articles written in the same year " => cluster.number_of_clusters_with_articles_written_in_the_same_year,
-      "Number of clusters with all articles written in the different years " => cluster.number_of_clusters_with_articles_written_in_the_different_year,
-      "Number of clusters with only one article " => cluster.number_of_clusters_with_one_article
+      'Number of clusters ' => cluster.number_of_clusters,
+      'Average number of scientific articles ' => cluster.average_number_of_NormalArticles,
+      'Average number of WikiPedia articles ' => cluster.average_number_of_WikiArticles,
+      'Number of clusters with all articles written in the same year ' => cluster.number_of_clusters_with_articles_written_in_the_same_year,
+      'Number of clusters with all articles written in the different years ' => cluster.number_of_clusters_with_articles_written_in_the_different_year,
+      'Number of clusters with only one article ' => cluster.number_of_clusters_with_one_article
     }
   end
     
@@ -135,6 +137,14 @@ end
 #p Functions.acronyms_by_id("4407188")
 #p Functions.get_sort_acronyms_by_id_hash_table()
 #p Functions.articles_without_acronyms()
-#puts Functions.articles_by_acronym("OXR1")
+#p Functions.articles_by_acronym("OXR1")
 #p Functions.group_articles()
 #p Functions.get_stats
+#p Functions.get_sort_articles_by_acronym_only_title_hash_table()
+#p Functions.get_sort_articles_by_acronym_only_title_hash_table()["OXR1"]
+#p Functions.get_sort_articles_by_source_hash_table()
+#p Functions.get_sort_articles_by_source_hash_table()[" Nerve"]
+#p Functions.get_sort_articles_by_source_hash_table()["Biochemia Medica"]
+#p Functions.get_sort_articles_by_source_hash_table()["Brain"]
+#p Functions.articles_by_source("﻿PLoS ONE")
+#p "Functions ", Functions.articles_by_source("﻿PLoS ONE")

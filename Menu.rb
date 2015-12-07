@@ -31,14 +31,14 @@ class Menu
               year = gets.chomp
               puts Functions.articles_by_year(year)   
         when 2
-              puts Functions.sources    
+              puts Functions.sources()    
         when 3
               puts 'Introduce un acrónimo: '
               acronym = gets.chomp
-              puts Functions.sources() 
+              puts Functions.articles_by_acronym(acronym)
         when 4
               puts 'Introduce el nombre de una revista: '
-              asource = gets.chomp
+              source = gets.chomp
               puts 'Introduce un acrónimo: '
               acronym = gets.chomp
               puts Functions.articles_by_source_and_acronym(source,acronym)
@@ -49,17 +49,29 @@ class Menu
         when 6
               puts 'Introduce un ID: '
               id_article = gets.chomp
-              puts Functions.acronyms_by_id(id)
+              puts Functions.acronyms_by_id(id_article)
         when 7
               puts Functions.articles_without_acronyms() 
         when 8
               puts 'Introduce el nombre de una revista: '
-              acronym = gets.chomp
-              puts Functions.articles_by_acronym(acronym) 
+              source = gets.chomp
+              puts Functions.articles_by_source(source) 
         when 9
-              puts Functions.group_articles()    
+              hash = Functions.group_articles()
+              i = 1
+              hash.each_key {|key|
+                puts "Cluster #{i}\n"
+                hash[key].each {|art| 
+                  puts art
+                }
+                i = i+1
+                puts
+              }
         when 10
-              puts Functions.get_stats()
+              Functions.get_stats().each do |key, value|
+                puts key.to_s + ' = ' + value.to_s
+              end
+    
         when 11
               puts 'Ha salido del programa.'  
       end  

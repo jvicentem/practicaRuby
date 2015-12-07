@@ -9,7 +9,7 @@ class ClusterByMostRepeatedAcronyms
   attr_reader :articles_hash_table
   
   def sort_articles_by_most_repeated_acronyms_only_title_and_id()
-    Article.sort_articles_by_most_repeated_acronyms_only_title_and_id(self.articles_hash_table)
+    return Article.sort_articles_by_most_repeated_acronyms_only_title_and_id(self.articles_hash_table)
   end
   
   def number_of_clusters
@@ -19,11 +19,10 @@ class ClusterByMostRepeatedAcronyms
   def average_number_of_NormalArticles
     number_of_NormalArticles = 0
     self.articles_hash_table.each_key { |key|
-      self.articles_hash_table[key].each {|art|
+      self.articles_hash_table[key].each {|art| 
         number_of_NormalArticles = number_of_NormalArticles + 1 if art.is_a?(NormalArticle)  
       }
     }
-    
     return (number_of_NormalArticles.to_f / number_of_clusters.to_f)
   end
   
@@ -34,7 +33,6 @@ class ClusterByMostRepeatedAcronyms
         number_of_WikiArticles = number_of_WikiArticles + 1 if art.is_a?(WikiArticle)  
       }
     }
-    
     return (number_of_WikiArticles.to_f / number_of_clusters.to_f)
   end
   
@@ -62,3 +60,5 @@ class ClusterByMostRepeatedAcronyms
   end
   
 end
+
+# TEST

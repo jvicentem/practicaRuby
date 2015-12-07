@@ -43,10 +43,27 @@ class NormalArticle < Article
     return hash
   end
   
+  def self.sort_normalArticles_by_year_only_title(normal_articles)
+    hash = Hash.new { |hash, key| hash[key] = [] }
+      
+    hash_table = self.sort_normalArticles_by_year(normal_articles)
+
+    hash_table.each_key() {|key| 
+      articles_list = Article.sort_list_of_articles_by_title(hash_table[key])
+      hash_table[key] = articles_list
+    }
+
+    hash_table.each_key {|key|
+      hash_table[key].each {|art| hash[key].push(art.title)}
+    }
+
+    return hash
+  end
+  
   def self.sort_normalArticles_by_source(normal_articles)
     normal_articles = normal_articles.sort_by {|art| art.source}
     hash = Hash.new { |hash, key| hash[key] = [] }
-    normal_articles.collect { |article| [article.source, hash[article.source].push(article)] }
+    normal_articles.each { |article| [article.source, hash[article.source].push(article)] }
     return hash
   end
   
@@ -85,7 +102,11 @@ class NormalArticle < Article
     end
   
     def get_source(lines)
-      lines[0]
+      source = lines[0]
+      if source[1] == ' ' then
+        source[1] = ''
+      end
+      return source
     end
     
     def get_id(lines) 

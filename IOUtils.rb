@@ -15,7 +15,7 @@ require_relative 'TextFileUtils'
 
 class IOUtils
   def initialize
-    @external_source = TextFileUtils.new("./docsUTF8prueba")
+    @external_source = TextFileUtils.new('./docsUTF8')
   end
   
   def get_articles ()

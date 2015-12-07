@@ -30,15 +30,17 @@ class Acronym
     times = 0
     
     acronyms.each {|acr|
-      max_acr = acr if acr.times > times
-      times = acr.times
+      if acr.times > times then
+        max_acr = acr 
+        times = acr.times
+      end
     }
     
     return max_acr
   end
   
   def to_s
-    "Acrónimo = #{self.acronym()}\nSignificado = #{self.meaning}\n\n"
+    "Acrónimo = #{self.acronym()}\nSignificado = #{self.meaning}\nVeces = #{self.times}\n\n"
   end
   
   def ==(acr)

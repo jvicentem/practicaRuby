@@ -38,7 +38,7 @@ class Article
   end
   
   def self.sort_list_of_articles_by_title(articles) 
-    articles.sort { |art1,art2| art1.title <=> art2.title }
+    return articles.sort { |art1,art2| art1.title <=> art2.title }
   end
   
   def self.sort_articles_by_acronym(articles)
@@ -88,18 +88,22 @@ class Article
     hash = Hash.new { |hash, key| hash[key] = [] }
       
     articles.each {|art|
-      acronyms = art.acronyms
-      most_repeated_acronym = Acronym.most_repeated_acronym(acronyms)
-      
-      hash[most_repeated_acronym.acronym] << art
+      if art.acronyms.length > 0 then
+        acronyms = art.acronyms
+        most_repeated_acronym = Acronym.most_repeated_acronym(acronyms)
+        
+        hash[most_repeated_acronym.acronym] << art
+      end
     }
     
     return hash
   end
   
-  def self.sort_articles_by_most_repeated_acronyms_only_title_and_id(hash)      
-    hash.each_key {|key|
-      articles = hash[key]
+  def self.sort_articles_by_most_repeated_acronyms_only_title_and_id(hash_table)      
+    hash = Hash.new { |hash, key| hash[key] = [] }
+    
+    hash_table.each_key {|key|
+      articles = hash_table[key]
       
       id_and_title_list = []
         

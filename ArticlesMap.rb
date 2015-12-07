@@ -9,17 +9,12 @@ class ArticlesMap
   end
   
   def self.sort_articles_by_year_only_title
-    map1 = WikiArticle.sort_wikiArticles_by_year(self.articles.select { |art| art.is_a?(WikiArticle) })
-    map2 = NormalArticle.sort_normalArticles_by_year(self.articles.select { |art| art.is_a?(NormalArticle) })
+    map1 = WikiArticle.sort_wikiArticles_by_year_only_title(self.articles.select { |art| art.is_a?(WikiArticle) })
+    map2 = NormalArticle.sort_normalArticles_by_year_only_title(self.articles.select { |art| art.is_a?(NormalArticle) })
     
-    map1.merge(map2){|key, oldval, newval| newval + oldval}
-      
-    map1.each_key() {|key| 
-      articles_list = Article.sort_list_of_articles_by_title(map1[key])
-      map1[key] = articles_list
-    }
+    merged = map1.merge(map2){|key, oldval, newval| newval + oldval}
     
-    return map1
+    return merged
   end
   
   def self.sort_acronyms_by_year
@@ -30,7 +25,8 @@ class ArticlesMap
   end
   
   def self.sort_articles_by_source
-    NormalArticle.sort_normalArticles_by_source(self.articles.select { |art| art.is_a?(NormalArticle) })
+    normal_articles = self.articles.select { |art| art.is_a?(NormalArticle) }
+    NormalArticle.sort_normalArticles_by_source(normal_articles)
   end
   
   def self.sort_articles_by_acronym
@@ -69,4 +65,4 @@ end
 #TEST
 #puts ArticlesMap.articles
 #p ArticlesMap.sort_articles_by_year()
-#p ArticlesMap.sort_articles_by_source()
+#p "ArticlesMap ", ArticlesMap.sort_articles_by_source()["﻿PLoS ONE"]

@@ -1,3 +1,3 @@
+puts 'Espere un momento por favor...'
 require_relative 'Menu'
-
-Menu.show_menu()
+puts Menu.show_menu()

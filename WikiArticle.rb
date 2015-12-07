@@ -31,7 +31,7 @@ class WikiArticle < Article
   end
   
   def to_s
-    super + "(#{self.last_updated}) \nIntroduction: #{self.introduction.join('\n')} \nSection number: #{self.sections.length} \nSections:\n#{self.sections.join("\n")}\n- - - - - - - - - - - - - - -\n\n"
+    super + "(#{self.last_updated}) \nIntroduction: #{self.introduction.join("\n")} \nSection number: #{self.sections.length} \nSections:\n#{self.sections.join("\n")}\n- - - - - - - - - - - - - - -\n\n"
   end
   
   def self.sort_wikiArticles_by_year(wiki_articles)
@@ -39,6 +39,23 @@ class WikiArticle < Article
     hash = Hash.new { |hash, key| hash[key] = [] }
     wiki_articles.collect { |article| [article.last_updated, hash[article.last_updated].push(article)] }
 
+    return hash
+  end
+  
+  def self.sort_wikiArticles_by_year_only_title(wiki_articles)
+    hash = Hash.new { |hash, key| hash[key] = [] }
+      
+    hash_table = self.sort_wikiArticles_by_year(wiki_articles)
+
+    hash_table.each_key() {|key| 
+      articles_list = Article.sort_list_of_articles_by_title(hash_table[key])
+      hash_table[key] = articles_list
+    }
+    
+    hash_table.each_key {|key|
+      hash_table[key].each {|art| hash[key].push(art.title)}
+    }
+  
     return hash
   end
   
@@ -92,7 +109,7 @@ class WikiArticle < Article
         if section.scan(/^2\.\s.+/).length > 0 then break end
         section_titles << section
       }
-      return section_titles[0] 
+      return section_titles.drop(1)
     end
 end
 
