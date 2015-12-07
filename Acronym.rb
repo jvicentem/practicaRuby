@@ -93,7 +93,7 @@ class Acronym
           ((!StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && !acronym_no_parenthesis?(word)) || #La palabra es válida y no es un acrónimo o...
            (StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && (temp_meaning == (acronym_without_parenthesis.length - 1))) #La palabra no es válida pero es la última, entonces forma parte del significado
           ) then
-            temp_meaning.unshift(word)
+            temp_meaning.push(word)
             acronym_letter_index  = acronym_letter_index + 1
         else #Si la palabra no cumple todo lo anterior, entonces no vale
           temp_meaning = []
@@ -125,7 +125,7 @@ class Acronym
           ((!StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && !acronym_no_parenthesis?(word)) || #La palabra es válida y no es un acrónimo o...
            (StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && (temp_meaning == (acronym_without_parenthesis.length - 1))) #La palabra no es válida pero es la última, entonces forma parte del significado
           ) then
-            temp_meaning.unshift(word)
+            temp_meaning.push(word)
             acronym_letter_index  = acronym_letter_index + 1
         else #Si la palabra no cumple todo lo anterior, entonces...
           if !already_a_word_in_the_middle && #Si no hay ya una palabra que no coincida en el medio 
@@ -133,7 +133,7 @@ class Acronym
             !acronym_no_parenthesis?(word) && !Acronym.acronym?(word) && #y además no es un acrónimo 
              !StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) then #y la palabra es válida, entonces la tenemos en cuenta
             already_a_word_in_the_middle = true
-            temp_meaning.unshift(word)
+            temp_meaning.push(word)
           else #Si aún así no se cumple lo anterior, se descarta
             temp_meaning = []
             reversed_acronym = acronym_without_parenthesis.reverse
@@ -165,8 +165,8 @@ class Acronym
       if (temp_meaning.length != 2) then
         unless condition_for_criterion3(word, acronym_without_parenthesis) then
           if condition_for_criterion3(next_word, acronym_without_parenthesis) then
-            temp_meaning.unshift(word)
-            temp_meaning.unshift(next_word)
+            temp_meaning.push(word)
+            temp_meaning.push(next_word)
             break              
           else
             temp_meaning = []
@@ -216,7 +216,7 @@ class Acronym
       end
       
       if valid_word then
-        temp_meaning.unshift(word)        
+        temp_meaning.push(word)        
       end
     }
     
