@@ -12,7 +12,7 @@ class WikiArticle < Article
   end
   
   def self.wikiArticle?(lines)
-    return lines[0].scan(/WDOC\d/).length > 0
+    return StringUtils.string_match_expr?(lines[0],"WDOC\\d") 
   end
   
   def lines_to_article(lines)
@@ -82,7 +82,7 @@ class WikiArticle < Article
     def get_sections(lines)
       sections = get_separated_content(lines).compact
       section_titles = []
-      section_titles = sections.find_all {|section| section.scan(/^\d\.\s.+/).length > 0}
+      section_titles = sections.find_all {|section| StringUtils.string_match_expr?(section,"^\\d\\.\\s.+")}
       return section_titles.flatten
     end
     
@@ -106,7 +106,7 @@ class WikiArticle < Article
       sections = get_separated_content(lines).compact
       section_titles = []
       sections.each {|section| 
-        if section.scan(/^2\.\s.+/).length > 0 then break end
+        if StringUtils.string_match_expr?(section,"^2\\.\\s.+") then break end
         section_titles << section
       }
       return section_titles.drop(1)

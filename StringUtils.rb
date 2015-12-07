@@ -16,6 +16,10 @@ class StringUtils
     last_char = word[-1] 
     char_list.include?(last_char)
   end
+  
+  def self.string_match_expr?(string,regex)
+    string.scan(/#{regex}/).length > 0
+  end
 
   private
     def initialize 

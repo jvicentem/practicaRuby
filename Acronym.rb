@@ -1,7 +1,7 @@
 require_relative 'StringUtils'
 
 class Acronym
-  ACRONYM_REGEX = "[A-Z]{2,}[A-Z0-9]*\-?\d*"
+  ACRONYM_REGEX = "[A-Z]{2,}[A-Z0-9]*\\-?\\d*"
   
   def initialize (acronym,meaning)
     @acronym, @meaning, @times = acronym, meaning, 0
@@ -16,7 +16,7 @@ class Acronym
       words_list.each { |word|
         word_modified = word.downcase
         acronym_modified = self.acronym.downcase
-        new_appearance if word_modified.scan(/#{acronym_modified}/).length > 0
+        new_appearance if StringUtils.string_match_expr?(word_modified,acronym_modified)
       }
     }
     
@@ -55,7 +55,7 @@ class Acronym
   
   # http://rubular.com/
   def self.acronym?(word)
-    word.scan(/\A\(#{ACRONYM_REGEX}\)[.:;,]?\Z/).length > 0
+    StringUtils.string_match_expr?(word,"\\A\\(#{ACRONYM_REGEX}\\)[.:;,]?\\Z")
   end
   
   def self.get_meaning(acronym, partial_line)
@@ -225,7 +225,7 @@ class Acronym
 
   private
     def acronym_no_parenthesis?(word)
-      word.scan(/\A#{ACRONYM_REGEX}[.:;,]?\Z/).length > 0
+      StringUtils.string_match_expr?(word,"\\A#{ACRONYM_REGEX}[.:;,]?\\Z")
     end
     
     def condition_for_criterion3(word, acronym_without_parenthesis)

@@ -11,8 +11,8 @@ class NormalArticle < Article
     NormalArticle.new('','',[],[],'','',0)
   end
   
-  def self.normalArticle?(lines)
-    return (lines[1].scan(/\d+/).length > 0) && (lines[2].scan(/\d+/).length > 0)
+  def self.normalArticle?(lines)                                  
+    return (StringUtils.string_match_expr?(lines[1],"\\d+")) && (StringUtils.string_match_expr?(lines[2],"\\d+"))
   end
   
   def lines_to_article(lines)
