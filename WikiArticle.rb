@@ -7,13 +7,7 @@ class WikiArticle < Article
     @last_updated,@introduction = last_updated, introduction
   end
   
-  def self.create_empty_WikiArticle
-    WikiArticle.new('','',[],[],0,[])
-  end
-  
-  def self.wikiArticle?(lines)
-    return StringUtils.string_match_expr?(lines[0],"WDOC\\d") 
-  end
+  attr_reader :last_updated, :introduction
   
   def lines_to_article(lines)
     if WikiArticle.wikiArticle?(lines) then
@@ -32,6 +26,14 @@ class WikiArticle < Article
   
   def to_s
     super + "(#{self.last_updated}) \nIntroduction: #{self.introduction.join("\n")} \nSection number: #{self.sections.length} \nSections:\n#{self.sections.join("\n")}\n- - - - - - - - - - - - - - -\n\n"
+  end
+  
+  def self.create_empty_WikiArticle
+    WikiArticle.new('','',[],[],0,[])
+  end
+  
+  def self.wikiArticle?(lines)
+    return StringUtils.string_match_expr?(lines[0],"WDOC\\d") 
   end
   
   def self.sort_wikiArticles_by_year(wiki_articles)
@@ -71,8 +73,6 @@ class WikiArticle < Article
     articles.each {|art| list << art.last_updated if art.is_a?(WikiArticle)}
     return list
   end
-  
-  attr_reader :last_updated, :introduction
   
   private
     def get_title(lines)

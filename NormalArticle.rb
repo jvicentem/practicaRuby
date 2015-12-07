@@ -6,14 +6,8 @@ class NormalArticle < Article
     super(id, title, '--', sections, acronyms)
     @source, @abstract, @year = source, abstract, year
   end
-  
-  def self.create_empty_normalArticle
-    NormalArticle.new('','',[],[],'','',0)
-  end
-  
-  def self.normalArticle?(lines)                                  
-    return (StringUtils.string_match_expr?(lines[1],"\\d+")) && (StringUtils.string_match_expr?(lines[2],"\\d+"))
-  end
+
+  attr_reader :source, :abstract, :year
   
   def lines_to_article(lines)
     if NormalArticle.normalArticle?(lines) then
@@ -33,6 +27,14 @@ class NormalArticle < Article
   
   def to_s
     super + "(#{self.year}) \nAbstract: #{self.abstract} \nSection number: #{self.sections.length} \nSections:\n#{self.sections.join("\n")}\n- - - - - - - - - - - - - - -\n\n"
+  end
+  
+  def self.create_empty_normalArticle
+    NormalArticle.new('','',[],[],'','',0)
+  end
+  
+  def self.normalArticle?(lines)                                  
+    return (StringUtils.string_match_expr?(lines[1],"\\d+")) && (StringUtils.string_match_expr?(lines[2],"\\d+"))
   end
   
   def self.sort_normalArticles_by_year(normal_articles)
@@ -86,8 +88,6 @@ class NormalArticle < Article
     articles.each {|art| list << art.year if art.is_a?(NormalArticle)}
     return list
   end
-  
-  attr_reader :source, :abstract, :year
   
   private
     def get_title(lines)

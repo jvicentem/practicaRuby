@@ -27,54 +27,12 @@ class Acronym
     self.times = self.times + 1
   end
   
-  def self.most_repeated_acronym(acronyms)
-    max_acr = nil
-    times = 0
-    
-    acronyms.each {|acr|
-      if acr.times > times then
-        max_acr = acr 
-        times = acr.times
-      end
-    }
-    
-    return max_acr
-  end
-  
   def to_s
     "Acrónimo = #{self.acronym()}\nSignificado = #{self.meaning}\nVeces = #{self.times}\n\n"
   end
   
   def ==(acr)
    self.acronym == acr.acronym
-  end
-  
-  def self.create_empty_Acronym
-    Acronym.new('','')
-  end
-  
-  # http://rubular.com/
-  def self.acronym?(word)
-    StringUtils.string_match_expr?(word,"\\A\\(#{ACRONYM_REGEX}\\)[.:;,]?\\Z")
-  end
-  
-  def self.get_meaning(acronym, partial_line)
-    acronym_cleaned = if StringUtils.has_any_of_these_characters_at_the_end?(acronym,[',','.',':',';']) then
-                        StringUtils.remove_last_char!(acronym) 
-                      else 
-                        acronym 
-                      end
-    temp_empty_acronym = Acronym.create_empty_Acronym
-    
-    if (meaning = temp_empty_acronym.criterion1(acronym_cleaned, partial_line)).meaning.length > 0 then
-    elsif (meaning = temp_empty_acronym.criterion2(acronym_cleaned, partial_line)).meaning.length > 0
-      elsif (meaning = temp_empty_acronym.criterion3(acronym_cleaned, partial_line)).meaning.length > 0
-        elsif (meaning = temp_empty_acronym.criterion4(acronym_cleaned, partial_line)).meaning.length > 0
-        else
-          return Acronym.new(StringUtils.remove_parenthesis(acronym_cleaned), "No se ha encontrado significado para este acrónimo")
-        end
-          
-    return meaning
   end
 
   def criterion1(acronym, words)
@@ -222,6 +180,49 @@ class Acronym
     
     return Acronym.new(acronym_without_parenthesis, temp_meaning.join(" "))
   end         
+  
+
+  def self.create_empty_Acronym
+    Acronym.new('','')
+  end
+  
+  # http://rubular.com/
+  def self.acronym?(word)
+    StringUtils.string_match_expr?(word,"\\A\\(#{ACRONYM_REGEX}\\)[.:;,]?\\Z")
+  end
+  
+  def self.get_meaning(acronym, partial_line)
+    acronym_cleaned = if StringUtils.has_any_of_these_characters_at_the_end?(acronym,[',','.',':',';']) then
+                        StringUtils.remove_last_char!(acronym) 
+                      else 
+                        acronym 
+                      end
+    temp_empty_acronym = Acronym.create_empty_Acronym
+    
+    if (meaning = temp_empty_acronym.criterion1(acronym_cleaned, partial_line)).meaning.length > 0 then
+    elsif (meaning = temp_empty_acronym.criterion2(acronym_cleaned, partial_line)).meaning.length > 0
+      elsif (meaning = temp_empty_acronym.criterion3(acronym_cleaned, partial_line)).meaning.length > 0
+        elsif (meaning = temp_empty_acronym.criterion4(acronym_cleaned, partial_line)).meaning.length > 0
+        else
+          return Acronym.new(StringUtils.remove_parenthesis(acronym_cleaned), "No se ha encontrado significado para este acrónimo")
+        end
+          
+    return meaning
+  end
+  
+  def self.most_repeated_acronym(acronyms)
+    max_acr = nil
+    times = 0
+    
+    acronyms.each {|acr|
+      if acr.times > times then
+        max_acr = acr 
+        times = acr.times
+      end
+    }
+    
+    return max_acr
+  end
 
   private
     def acronym_no_parenthesis?(word)

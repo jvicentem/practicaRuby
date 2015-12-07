@@ -18,11 +18,11 @@ class IOUtils
     @external_source = TextFileUtils.new('./docsUTF8')
   end
   
+  attr_reader :external_source
+  
   def get_articles ()
     return list_of_lines_to_articles(read_files)
   end
-  
-  attr_reader :external_source
   
   private
     def read_files

@@ -10,6 +10,8 @@ class Article
     @acronyms = acronyms
   end
   
+  attr_reader :id, :title, :separator, :sections, :acronyms
+  
   def get_separated_content(lines)
     lines.drop(3).delete_if {|element| element == self.separator}
   end
@@ -29,6 +31,10 @@ class Article
     return acronyms
   end
   
+  def to_s
+    return "- - - - - - - - - - - - - - -\nTitle: #{self.title} "
+  end
+
   def self.sort_list_of_articles_by_title(articles) 
     return articles.sort { |art1,art2| art1.title <=> art2.title }
   end
@@ -107,11 +113,6 @@ class Article
     return hash
   end
   
-  def to_s
-    return "- - - - - - - - - - - - - - -\nTitle: #{self.title} "
-  end
-  
-  attr_reader :id, :title, :separator, :sections, :acronyms
 end
 
 # TEST
