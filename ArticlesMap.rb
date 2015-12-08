@@ -1,8 +1,11 @@
-require_relative 'IOUtils'
 require_relative 'Article'
 
 class ArticlesMap
-  @@articles = IOUtils.new().get_articles()
+  @@articles = nil
+  
+  def self.init(articles_list)
+    @@articles = articles_list
+  end
   
   def self.articles
     @@articles

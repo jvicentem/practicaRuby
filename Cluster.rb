@@ -1,10 +1,9 @@
 require_relative 'ClusterByMostRepeatedAcronyms'
-require_relative 'IOUtils'
 
 class Cluster
   
-  def initialize()
-    @cluster_specific = ClusterByMostRepeatedAcronyms.new(IOUtils.new().get_articles())
+  def initialize(articles_list)
+    @cluster_specific = ClusterByMostRepeatedAcronyms.new(articles_list)
   end
   
   attr_reader :cluster_specific

@@ -1,9 +1,15 @@
 require_relative 'ArticlesMap'
 require_relative 'Cluster'
+require_relative 'IOUtils'
 
 class Functions
-  def self.initialize_articlesMaps
+  def self.initialize_articlesMaps_and_cluster()
+    articles_list = IOUtils.new().get_articles()
+    
+    ArticlesMap.init(articles_list)
+    
     hash_tables_list = []
+    
     hash_tables_list << ArticlesMap.sort_articles_by_acronym() << 
       ArticlesMap.sort_articles_by_source() << 
       ArticlesMap.sort_articles_by_year_only_title() << 
@@ -12,12 +18,12 @@ class Functions
       ArticlesMap.sort_acronyms_by_year() <<
       ArticlesMap.sort_acronyms_by_id() <<
       ArticlesMap.sort_articles_without_acronyms(hash_tables_list[0]) <<
-      Cluster.new()
+      Cluster.new(articles_list)
    
    return hash_tables_list
   end
   
-  @@articlesMaps = Functions.initialize_articlesMaps()
+  @@articlesMaps = Functions.initialize_articlesMaps_and_cluster()
     
   def self.articlesMaps
     @@articlesMaps
