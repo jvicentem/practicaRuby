@@ -29,7 +29,7 @@ class Menu
         when 1
               puts 'Introduce un año: '
               year = gets.chomp
-              puts Functions.articles_by_year(year)   
+              puts Functions.articles_by_year(year)
         when 2
               puts Functions.sources()    
         when 3
@@ -74,6 +74,7 @@ class Menu
     
         when 11
               puts 'Ha salido del programa.'  
+              exit
       end  
     end
   
