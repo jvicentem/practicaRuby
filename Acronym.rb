@@ -223,6 +223,20 @@ class Acronym
     
     return max_acr
   end
+  
+  def self.convert_object_key_to_acronym_key(hash_table)
+    hash = Hash.new { |hash, key| hash[key] = [] }
+      
+    hash_table.each_key {|key|
+      if key.is_a?(Acronym) then
+        hash[key.acronym] = hash_table[key]
+      else
+        hash[key] = hash_table[key]
+      end
+    }
+    
+    return hash
+  end
 
   private
     def acronym_no_parenthesis?(word)

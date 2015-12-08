@@ -39,12 +39,11 @@ class Article
     return articles.sort { |art1,art2| art1.title <=> art2.title }
   end
   
-  def self.sort_articles_by_acronym(articles)
+  def self.sort_articles_by_acronym(articles)  # OJOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
     hash = Hash.new { |hash, key| hash[key] = [] }
     articles.collect { |article|
       if article.acronyms.length > 0 then
-        article.acronyms.each {|acr| [acr.acronym, hash[acr.acronym].push(article)]} 
-          # Echar un ojo a esto...
+        article.acronyms.each {|acr| [acr, hash[acr].push(article)]} 
       else
         ["No acronyms", hash["No acronyms"].push(article)]
       end
@@ -55,7 +54,8 @@ class Article
       articles_list_sorted = articles_list.sort { |art1,art2| art1.title <=> art2.title }
       hash[key] = articles_list_sorted
     }
-    return hash
+    
+    return Acronym.convert_object_key_to_acronym_key(hash)
   end
   
   def self.sort_titles_by_acronym(articles) 
@@ -82,7 +82,7 @@ class Article
     return articles_list
   end
   
-  def self.sort_articles_by_most_repeated_acronyms(articles)
+  def self.sort_articles_by_most_repeated_acronyms(articles) # OJOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
     hash = Hash.new { |hash, key| hash[key] = [] }
       
     articles.each {|art|
@@ -90,11 +90,11 @@ class Article
         acronyms = art.acronyms
         most_repeated_acronym = Acronym.most_repeated_acronym(acronyms)
         
-        hash[most_repeated_acronym.acronym] << art
+        hash[most_repeated_acronym] << art
       end
     }
     
-    return hash
+    return Acronym.convert_object_key_to_acronym_key(hash)
   end
   
   def self.sort_articles_by_most_repeated_acronyms_only_title_and_id(hash_table)      
