@@ -48,8 +48,8 @@ class Acronym
     improved_list_of_words.each {|word|
       if (temp_meaning.length != acronym_without_parenthesis.length) then
         if (word[0].downcase == reversed_acronym[acronym_letter_index].downcase) && #Si la primera letra de la palabra coincide con la letra del acrónimo que toca y además... 
-          ((!StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && !acronym_no_parenthesis?(word)) || #La palabra es válida y no es un acrónimo o...
-           (StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && (temp_meaning == (acronym_without_parenthesis.length - 1))) #La palabra no es válida pero es la última, entonces forma parte del significado
+          ((valid_word_and_not_acronym?(word)) || #La palabra es válida y no es un acrónimo o...
+           (StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && (temp_meaning.length == (acronym_without_parenthesis.length - 1))) #La palabra no es válida pero es la última, entonces forma parte del significado
           ) then
             temp_meaning.push(word)
             acronym_letter_index  = acronym_letter_index + 1
@@ -78,17 +78,17 @@ class Acronym
     already_a_word_in_the_middle = false
     
     improved_list_of_words.each {|word|
-      if (temp_meaning.length != (acronym_without_parenthesis.length+1)) then
+      if (temp_meaning.length != (acronym_without_parenthesis.length + 1)) then
         if (word[0].downcase == reversed_acronym[acronym_letter_index].downcase) && #Si la primera letra de la palabra coincide con la letra del acrónimo que toca y además... 
-          ((!StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && !acronym_no_parenthesis?(word)) || #La palabra es válida y no es un acrónimo o...
-           (StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && (temp_meaning == (acronym_without_parenthesis.length - 1))) #La palabra no es válida pero es la última, entonces forma parte del significado
+          ((valid_word_and_not_acronym?(word)) || #La palabra es válida y no es un acrónimo o...
+           (StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && (temp_meaning.length == (acronym_without_parenthesis.length - 1))) #La palabra no es válida pero es la última, entonces forma parte del significado
           ) then
             temp_meaning.push(word)
             acronym_letter_index  = acronym_letter_index + 1
         else #Si la palabra no cumple todo lo anterior, entonces...
           if !already_a_word_in_the_middle && #Si no hay ya una palabra que no coincida en el medio 
             !temp_meaning.empty? && #y no va a ser la primera palabra del significado 
-            !acronym_no_parenthesis?(word) && !Acronym.acronym?(word) && #y además no es un acrónimo 
+            not_acronym_at_all?(word) && #y además no es un acrónimo 
              !StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) then #y la palabra es válida, entonces la tenemos en cuenta
             already_a_word_in_the_middle = true
             temp_meaning.push(word)
@@ -147,7 +147,7 @@ class Acronym
     improved_list_of_words.each {|word|  
       valid_word = false
       if (!reversed_acronym.empty?()) then
-        if !Acronym.acronym?(word) && !acronym_no_parenthesis?(word) && #Si la palabra no es un acrónimo
+        if not_acronym_at_all?(word) && #Si la palabra no es un acrónimo
           (!StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) || (StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && temp_meaning.length == 1)) then #Y además es válida o si no lo es se trata de la última palabra del significado, entonces se tiene en cuenta
           word.reverse.each_char {|letter| 
                                       if reversed_acronym.length > 1 then
@@ -245,7 +245,15 @@ class Acronym
     
     def condition_for_criterion3(word, acronym_without_parenthesis)
       #Si la palabra es válida y no es un acrónimo y además las primeras n letras de la palabra coinciden con las n letras del acrónimo, entonces la palabra se tiene en cuenta
-      !StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && !acronym_no_parenthesis?(word) && (word[0...acronym_without_parenthesis.length].downcase == acronym_without_parenthesis.downcase)
+      valid_word_and_not_acronym?(word) && (word[0...acronym_without_parenthesis.length].downcase == acronym_without_parenthesis.downcase)
+    end
+    
+    def not_acronym_at_all?(word)
+      return !acronym_no_parenthesis?(word) && !Acronym.acronym?(word)
+    end
+    
+    def valid_word_and_not_acronym?(word)
+      return !StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && !acronym_no_parenthesis?(word)
     end
 
 end
