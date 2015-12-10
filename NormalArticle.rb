@@ -65,7 +65,9 @@ class NormalArticle < Article
   def self.sort_normalArticles_by_source(normal_articles)
     articles = normal_articles.sort_by {|art| art.title}
     hash = Hash.new { |hash, key| hash[key] = [] }
-    articles.each { |article| [article.source, hash[article.source].push(article)] }
+    articles.each { |article| 
+      hash[article.source] << article
+    }
     return hash
   end
   
@@ -146,3 +148,4 @@ end
 # puts NormalArticle.list_of_lines_to_articles([lines])
 # puts NormalArticle.normalArticle?(['','11111','a'])
 #p NormalArticle.sort_normalArticles_by_year([NormalArticle.new("","",[],[],"","",2015),NormalArticle.new("","",[],[],"","",2015),NormalArticle.new("","",[],[],"","",2016)])
+#p NormalArticle.sort_normalArticles_by_source([NormalArticle.new("","A",[],[],"S1","",2015),NormalArticle.new("","B",[],[],"S2","",2015),NormalArticle.new("","C",[],[],"S3","",2016)])["S1"]

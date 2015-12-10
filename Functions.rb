@@ -106,8 +106,7 @@ class Functions
   
   #8
   def self.articles_by_source(source)
-    #self.get_sort_articles_by_source_hash_table().each_key {|key| return self.get_sort_articles_by_source_hash_table()[key] if key == source }
-    return self.get_sort_articles_by_source_hash_table()[source]
+    self.get_sort_articles_by_source_hash_table().each_key {|key| return (self.get_sort_articles_by_source_hash_table()[key]) if key == source }
   end
   
   #9
@@ -135,13 +134,16 @@ class Functions
 end
 
 # TEST
-p Functions.get_sort_articles_by_source_hash_table()
-p Functions.get_sort_articles_by_source_hash_table()[:"Biochemia Medica"]
-p Functions.get_sort_articles_by_source_hash_table()[:'Biochemia Medica']
-p Functions.get_sort_articles_by_source_hash_table()[:'"Biochemia Medica"']
-p Functions.get_sort_articles_by_source_hash_table()[:"\"Biochemia Medica\""]
-p Functions.get_sort_articles_by_source_hash_table()["Biochemia Medica"]
-p Functions.get_sort_articles_by_source_hash_table()['Biochemia Medica']
-p Functions.get_sort_articles_by_source_hash_table()['"Biochemia Medica"']
-p Functions.get_sort_articles_by_source_hash_table()["\"Biochemia Medica\""]
-p calificaciones = {"ISI" => 10, "PP" => 10}["ISI"]
+p Functions.articles_by_source("Biochemia Medica")
+#p Functions.get_sort_articles_by_source_hash_table()
+#p ArticlesMap.sort_articles_by_source()
+#p ArticlesMap.sort_articles_by_source()["Biochemia Medica"]
+#p Functions.get_sort_articles_by_source_hash_table()[:"Biochemia Medica"]
+#p Functions.get_sort_articles_by_source_hash_table()[:'Biochemia Medica']
+#p Functions.get_sort_articles_by_source_hash_table()[:'"Biochemia Medica"']
+#p Functions.get_sort_articles_by_source_hash_table()[:"\"Biochemia Medica\""]
+#p Functions.get_sort_articles_by_source_hash_table()["Biochemia Medica"]
+#p Functions.get_sort_articles_by_source_hash_table()['Biochemia Medica']
+#p Functions.get_sort_articles_by_source_hash_table()['"Biochemia Medica"']
+#p Functions.get_sort_articles_by_source_hash_table()["\"Biochemia Medica\""]
+#p calificaciones = {"ISI" => 10, "PP" => 10}["ISI"]
