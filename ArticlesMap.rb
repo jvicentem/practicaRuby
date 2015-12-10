@@ -28,8 +28,9 @@ class ArticlesMap
   end
   
   def self.sort_articles_by_source
-    normal_articles = self.articles.select { |art| art.is_a?(NormalArticle) }
-    NormalArticle.sort_normalArticles_by_source(normal_articles)
+    normal_articles = ArticlesMap.articles.select { |art| art.is_a?(NormalArticle) }
+    table = NormalArticle.sort_normalArticles_by_source(normal_articles)
+    return table
   end
   
   def self.sort_articles_by_acronym
@@ -68,4 +69,3 @@ end
 #TEST
 #puts ArticlesMap.articles
 #p ArticlesMap.sort_articles_by_year()
-#p "ArticlesMap ", ArticlesMap.sort_articles_by_source()["﻿PLoS ONE"]
