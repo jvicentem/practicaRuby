@@ -10,20 +10,20 @@ class Acronym
   attr_reader :acronym, :meaning, :times
   attr_writer :times
   
-  def count_appearances(lines)
+  def count_appearances!(lines)
     lines.each {|line| 
       words_list = line.split(/\s/)
       words_list.each { |word|
         word_modified = word.downcase
         acronym_modified = self.acronym.downcase
-        new_appearance if StringUtils.string_match_expr?(word_modified,acronym_modified)
+        new_appearance! if StringUtils.string_match_expr?(word_modified,acronym_modified)
       }
     }
     
     return self
   end
   
-  def new_appearance
+  def new_appearance!
     self.times = self.times + 1
   end
   
