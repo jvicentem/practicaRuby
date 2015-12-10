@@ -4,7 +4,11 @@ require_relative 'IOUtils'
 
 class Functions
   def self.initialize_articlesMaps_and_cluster()
+    begin
     articles_list = IOUtils.new().get_articles()
+    rescue IOError => e
+      raise e
+    end
     
     ArticlesMap.init(articles_list)
     

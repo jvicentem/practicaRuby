@@ -21,21 +21,16 @@ class IOUtils
   attr_reader :external_source
   
   def get_articles ()
-    begin
-     list = list_of_lines_to_articles(read_files)
-     if list == [] then
-       raise 'No se han encontrado artículos.'
-     end
-    rescue Exception => e 
-      $stderr.puts e.message + ' La lista de artículos estará vacía y es posible que se produzcan errores de ejecución'
-    ensure
-      return list
-    end
+     return list_of_lines_to_articles(read_files)
   end
   
   private
     def read_files
-      self.external_source.read_files
+      begin
+        self.external_source.read_files
+      rescue IOError => e
+        raise e
+      end
     end
     
     def list_of_lines_to_articles(list_of_lines)

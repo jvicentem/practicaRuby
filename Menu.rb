@@ -1,4 +1,10 @@
+begin
 require_relative 'Functions'
+rescue IOError => e
+  $stderr.puts e.message 
+  $stderr.puts 'Finalizada la ejecución del programa.'
+  exit
+end
 
 class Menu
   def self.show_menu
