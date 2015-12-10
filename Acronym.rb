@@ -30,7 +30,7 @@ class Acronym
   def to_s
     "Acrónimo = #{self.acronym()}\nSignificado = #{self.meaning}\nVeces = #{self.times}\n\n"
   end
-  
+ 
   def ==(acr)
    self.acronym == acr.acronym
   end

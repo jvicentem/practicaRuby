@@ -63,9 +63,9 @@ class NormalArticle < Article
   end
   
   def self.sort_normalArticles_by_source(normal_articles)
-    normal_articles = normal_articles.sort_by {|art| art.source}
+    articles = normal_articles.sort_by {|art| art.title}
     hash = Hash.new { |hash, key| hash[key] = [] }
-    normal_articles.each { |article| [article.source, hash[article.source].push(article)] }
+    articles.each { |article| [article.source, hash[article.source].push(article)] }
     return hash
   end
   

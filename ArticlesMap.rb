@@ -29,7 +29,7 @@ class ArticlesMap
   
   def self.sort_articles_by_source
     normal_articles = self.articles.select { |art| art.is_a?(NormalArticle) }
-    NormalArticle.sort_normalArticles_by_source(normal_articles)
+    return NormalArticle.sort_normalArticles_by_source(normal_articles)
   end
   
   def self.sort_articles_by_acronym
