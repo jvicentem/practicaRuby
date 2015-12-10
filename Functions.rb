@@ -23,7 +23,7 @@ class Functions
       ArticlesMap.sort_acronyms_by_id() <<
       ArticlesMap.sort_articles_without_acronyms(hash_tables_list[0]) <<
       Cluster.new(articles_list)
-   
+      
    return hash_tables_list
   end
   
@@ -106,7 +106,7 @@ class Functions
   
   #8
   def self.articles_by_source(source)
-    self.get_sort_articles_by_source_hash_table().each_key {|key| return (self.get_sort_articles_by_source_hash_table()[key]) if key == source }
+    return self.get_sort_articles_by_source_hash_table()[source]
   end
   
   #9
@@ -134,7 +134,7 @@ class Functions
 end
 
 # TEST
-p Functions.articles_by_source("Biochemia Medica")
+#p Functions.articles_by_source("Biochemia Medica")
 #p Functions.get_sort_articles_by_source_hash_table()
 #p ArticlesMap.sort_articles_by_source()
 #p ArticlesMap.sort_articles_by_source()["Biochemia Medica"]

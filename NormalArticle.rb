@@ -66,7 +66,7 @@ class NormalArticle < Article
     articles = normal_articles.sort_by {|art| art.title}
     hash = Hash.new { |hash, key| hash[key] = [] }
     articles.each { |article| 
-      hash[article.source] << article
+      hash[article.source.chomp[1..-1]] << article
     }
     return hash
   end
