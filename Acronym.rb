@@ -8,7 +8,7 @@ class Acronym
   end
   
   attr_reader :acronym, :meaning, :times
-  attr_writer :times
+  attr_writer :times, :acronym
   
   def count_appearances!(lines)
     lines.each {|line| 
@@ -28,13 +28,15 @@ class Acronym
   end
   
   def to_s
-    "Acrónimo = #{self.acronym()}\nSignificado = #{self.meaning}\nVeces = #{self.times}\n\n"
+    "Acrónimo = #{self.acronym()}\nSignificado = #{self.meaning}\nApariciones = #{self.times}\n\n"
   end
  
   def ==(acr)
    self.acronym == acr.acronym
   end
-
+  
+  alias eql? ==
+  
   def criterion1(acronym, words)
     acronym_without_parenthesis = StringUtils.remove_parenthesis(acronym)
     
@@ -51,7 +53,7 @@ class Acronym
           ((valid_word_and_not_acronym?(word)) || #La palabra es válida y no es un acrónimo o...
            (StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && (temp_meaning.length == (acronym_without_parenthesis.length - 1))) #La palabra no es válida pero es la última, entonces forma parte del significado
           ) then
-            temp_meaning.push(word)
+            temp_meaning.unshift(word)
             acronym_letter_index  = acronym_letter_index + 1
         else #Si la palabra no cumple todo lo anterior, entonces no vale
           temp_meaning = []
@@ -83,7 +85,7 @@ class Acronym
           ((valid_word_and_not_acronym?(word)) || #La palabra es válida y no es un acrónimo o...
            (StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) && (temp_meaning.length == (acronym_without_parenthesis.length - 1))) #La palabra no es válida pero es la última, entonces forma parte del significado
           ) then
-            temp_meaning.push(word)
+            temp_meaning.unshift(word)
             acronym_letter_index  = acronym_letter_index + 1
         else #Si la palabra no cumple todo lo anterior, entonces...
           if !already_a_word_in_the_middle && #Si no hay ya una palabra que no coincida en el medio 
@@ -91,7 +93,7 @@ class Acronym
             not_acronym_at_all?(word) && #y además no es un acrónimo 
              !StringUtils.has_any_of_these_characters_at_the_end?(word,[',','.',':',';']) then #y la palabra es válida, entonces la tenemos en cuenta
             already_a_word_in_the_middle = true
-            temp_meaning.push(word)
+            temp_meaning.unshift(word)
           else #Si aún así no se cumple lo anterior, se descarta
             temp_meaning = []
             reversed_acronym = acronym_without_parenthesis.reverse
@@ -123,8 +125,8 @@ class Acronym
       if (temp_meaning.length != 2) then
         unless condition_for_criterion3(word, acronym_without_parenthesis) then
           if condition_for_criterion3(next_word, acronym_without_parenthesis) then
-            temp_meaning.push(word)
-            temp_meaning.push(next_word)
+            temp_meaning.unshift(word)
+            temp_meaning.unshift(next_word)
             break              
           else
             temp_meaning = []
@@ -174,7 +176,7 @@ class Acronym
       end
       
       if valid_word then
-        temp_meaning.push(word)        
+        temp_meaning.unshift(word)        
       end
     }
     
@@ -220,7 +222,7 @@ class Acronym
         times = acr.times
       end
     }
-    
+    #puts "max_acr ",max_acr.acronym, max_acr.times
     return max_acr
   end
   

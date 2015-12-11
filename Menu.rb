@@ -67,7 +67,6 @@ class Menu
               i = 1
               hash.each_key {|key|
                 puts "Cluster #{i}\n"
-                #puts "Clave ",key
                 hash[key].each {|art| 
                   puts art
                 }
