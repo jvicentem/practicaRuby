@@ -1,9 +1,19 @@
 require_relative 'ArticlesMap'
 require_relative 'Cluster'
+require_relative 'IOUtils'
 
 class Functions
-  def self.initialize_articlesMaps
+  def self.initialize_articlesMaps_and_cluster()
+    begin
+    articles_list = IOUtils.new().get_articles()
+    rescue IOError => e
+      raise e
+    end
+    
+    ArticlesMap.init(articles_list)
+    
     hash_tables_list = []
+    
     hash_tables_list << ArticlesMap.sort_articles_by_acronym() << 
       ArticlesMap.sort_articles_by_source() << 
       ArticlesMap.sort_articles_by_year_only_title() << 
@@ -12,12 +22,12 @@ class Functions
       ArticlesMap.sort_acronyms_by_year() <<
       ArticlesMap.sort_acronyms_by_id() <<
       ArticlesMap.sort_articles_without_acronyms(hash_tables_list[0]) <<
-      Cluster.new()
-   
+      Cluster.new(articles_list)
+      
    return hash_tables_list
   end
   
-  @@articlesMaps = Functions.initialize_articlesMaps()
+  @@articlesMaps = Functions.initialize_articlesMaps_and_cluster()
     
   def self.articlesMaps
     @@articlesMaps
@@ -96,7 +106,7 @@ class Functions
   
   #8
   def self.articles_by_source(source)
-    self.get_sort_articles_by_source_hash_table()[source]
+    return self.get_sort_articles_by_source_hash_table()[source]
   end
   
   #9
@@ -122,29 +132,3 @@ class Functions
     def initialize
     end
 end
-
-# TEST
-#puts Functions.articles
-#p StringUtils.has_any_of_these_characters_at_the_end?('(PCR).',['.',',',':',';'])
-#p StringUtils.remove_last_char!('(PCR).')
-#p Functions.articlesMaps
-#p Functions.articles_by_year("2015")
-#p Functions.sources()
-#p Functions.articles_by_acronym("OXR1")
-#p Functions.get_sort_articles_by_source_and_acronym_hash_table()
-#p Functions.articles_by_source_and_acronym("Brain","OXR1")
-#p Functions.acronyms_by_year("2015")
-#p Functions.acronyms_by_id("4407188")
-#p Functions.get_sort_acronyms_by_id_hash_table()
-#p Functions.articles_without_acronyms()
-#p Functions.articles_by_acronym("OXR1")
-#p Functions.group_articles()
-#p Functions.get_stats
-#p Functions.get_sort_articles_by_acronym_only_title_hash_table()
-#p Functions.get_sort_articles_by_acronym_only_title_hash_table()["OXR1"]
-#p Functions.get_sort_articles_by_source_hash_table()
-#p Functions.get_sort_articles_by_source_hash_table()[" Nerve"]
-#p Functions.get_sort_articles_by_source_hash_table()["Biochemia Medica"]
-#p Functions.get_sort_articles_by_source_hash_table()["Brain"]
-#p Functions.articles_by_source("﻿PLoS ONE")
-#p "Functions ", Functions.articles_by_source("﻿PLoS ONE")

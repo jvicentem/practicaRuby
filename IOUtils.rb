@@ -18,27 +18,23 @@ class IOUtils
     @external_source = TextFileUtils.new('./docsUTF8')
   end
   
-  def get_articles ()
-    return list_of_lines_to_articles(read_files)
-  end
-  
   attr_reader :external_source
+  
+  def get_articles ()
+     return list_of_lines_to_articles(read_files)
+  end
   
   private
     def read_files
-      self.external_source.read_files
+      begin
+        self.external_source.read_files
+      rescue IOError => e
+        raise e
+      end
     end
     
     def list_of_lines_to_articles(list_of_lines)
-      list_of_articles = []
-=begin
-      descendants_classes = Article.descendants #Busco las clases hijas de esta
-      puts 'Prueba 3'
-      descendants_classes.each {|child_class| #Paso las líneas a artículos invocando al método lines_to_article de cada clase
-        puts 'Prueba 4'
-        list_of_lines.each {|lines| list_of_articles << (Object.const_get child_class).classify.lines_to_article(lines)}
-      }
-=end    
+      list_of_articles = []   
       list_of_lines.each {|lines| 
         if NormalArticle.normalArticle?(lines) then
           list_of_articles << NormalArticle.create_empty_normalArticle().lines_to_article(lines)
@@ -50,6 +46,3 @@ class IOUtils
     end
   
 end
-
-#TEST
-#p IOUtils.new().get_articles()

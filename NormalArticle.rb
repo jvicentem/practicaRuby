@@ -6,14 +6,8 @@ class NormalArticle < Article
     super(id, title, '--', sections, acronyms)
     @source, @abstract, @year = source, abstract, year
   end
-  
-  def self.create_empty_normalArticle
-    NormalArticle.new('','',[],[],'','',0)
-  end
-  
-  def self.normalArticle?(lines)
-    return (lines[1].scan(/\d+/).length > 0) && (lines[2].scan(/\d+/).length > 0)
-  end
+
+  attr_reader :source, :abstract, :year
   
   def lines_to_article(lines)
     if NormalArticle.normalArticle?(lines) then
@@ -33,6 +27,14 @@ class NormalArticle < Article
   
   def to_s
     super + "(#{self.year}) \nAbstract: #{self.abstract} \nSection number: #{self.sections.length} \nSections:\n#{self.sections.join("\n")}\n- - - - - - - - - - - - - - -\n\n"
+  end
+  
+  def self.create_empty_normalArticle
+    NormalArticle.new('','',[],[],'','',0)
+  end
+  
+  def self.normalArticle?(lines)                                  
+    return (StringUtils.string_match_expr?(lines[1],"\\d+")) && (StringUtils.string_match_expr?(lines[2],"\\d+"))
   end
   
   def self.sort_normalArticles_by_year(normal_articles)
@@ -61,9 +63,11 @@ class NormalArticle < Article
   end
   
   def self.sort_normalArticles_by_source(normal_articles)
-    normal_articles = normal_articles.sort_by {|art| art.source}
+    articles = normal_articles.sort_by {|art| art.title}
     hash = Hash.new { |hash, key| hash[key] = [] }
-    normal_articles.each { |article| [article.source, hash[article.source].push(article)] }
+    articles.each { |article| 
+      hash[article.source.chomp[1..-1]] << article
+    }
     return hash
   end
   
@@ -86,8 +90,6 @@ class NormalArticle < Article
     articles.each {|art| list << art.year if art.is_a?(NormalArticle)}
     return list
   end
-  
-  attr_reader :source, :abstract, :year
   
   private
     def get_title(lines)
@@ -130,19 +132,3 @@ class NormalArticle < Article
     end
 
 end
-
-# TEST
-#art = NormalArticle.new("","",[],[],"","",0)
-# lines = ["source","id","year","--","title","--","abstract","--","section title 1","section content 1","--","section title 2","section content 2","--"]
-# puts art.get_source(lines);
-# puts art.get_id(lines);
-# puts art.get_year(lines);
-# puts art.get_title(lines);
-# puts art.get_abstract(lines);
-# puts art.get_sections(lines);
-# puts art.get_acronyms(lines);
-# puts art.list_of_lines_to_articles([lineas])
-# puts art.to_s()
-# puts NormalArticle.list_of_lines_to_articles([lines])
-# puts NormalArticle.normalArticle?(['','11111','a'])
-#p NormalArticle.sort_normalArticles_by_year([NormalArticle.new("","",[],[],"","",2015),NormalArticle.new("","",[],[],"","",2015),NormalArticle.new("","",[],[],"","",2016)])

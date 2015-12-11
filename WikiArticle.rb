@@ -7,13 +7,7 @@ class WikiArticle < Article
     @last_updated,@introduction = last_updated, introduction
   end
   
-  def self.create_empty_WikiArticle
-    WikiArticle.new('','',[],[],0,[])
-  end
-  
-  def self.wikiArticle?(lines)
-    return lines[0].scan(/WDOC\d/).length > 0
-  end
+  attr_reader :last_updated, :introduction
   
   def lines_to_article(lines)
     if WikiArticle.wikiArticle?(lines) then
@@ -32,6 +26,14 @@ class WikiArticle < Article
   
   def to_s
     super + "(#{self.last_updated}) \nIntroduction: #{self.introduction.join("\n")} \nSection number: #{self.sections.length} \nSections:\n#{self.sections.join("\n")}\n- - - - - - - - - - - - - - -\n\n"
+  end
+  
+  def self.create_empty_WikiArticle
+    WikiArticle.new('','',[],[],0,[])
+  end
+  
+  def self.wikiArticle?(lines)
+    return StringUtils.string_match_expr?(lines[0],"WDOC\\d") 
   end
   
   def self.sort_wikiArticles_by_year(wiki_articles)
@@ -72,8 +74,6 @@ class WikiArticle < Article
     return list
   end
   
-  attr_reader :last_updated, :introduction
-  
   private
     def get_title(lines)
       lines[2]
@@ -82,7 +82,7 @@ class WikiArticle < Article
     def get_sections(lines)
       sections = get_separated_content(lines).compact
       section_titles = []
-      section_titles = sections.find_all {|section| section.scan(/^\d\.\s.+/).length > 0}
+      section_titles = sections.find_all {|section| StringUtils.string_match_expr?(section,"^\\d\\.\\s.+")}
       return section_titles.flatten
     end
     
@@ -106,20 +106,9 @@ class WikiArticle < Article
       sections = get_separated_content(lines).compact
       section_titles = []
       sections.each {|section| 
-        if section.scan(/^2\.\s.+/).length > 0 then break end
+        if StringUtils.string_match_expr?(section,"^2\\.\\s.+") then break end
         section_titles << section
       }
       return section_titles.drop(1)
     end
 end
-
-# TEST
-# art = WikiArticle.create_empty_WikiArticle
-# lines = ["id","year","title","--","1. section title 1","section content 1","--","2. section title 2","section content 2","--"]
-# puts art.get_id(lines);
-# puts art.get_title(lines);
-# puts art.get_last_updated(lines);
-# puts art.get_sections(lines);
-# puts art.get_acronyms(lines);
-# puts art.to_s()
-# puts WikiArticle.list_of_lines_to_articles([lines])

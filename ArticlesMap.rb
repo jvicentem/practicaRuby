@@ -1,8 +1,11 @@
-require_relative 'IOUtils'
 require_relative 'Article'
 
 class ArticlesMap
-  @@articles = IOUtils.new().get_articles()
+  @@articles = nil
+  
+  def self.init(articles_list)
+    @@articles = articles_list
+  end
   
   def self.articles
     @@articles
@@ -25,8 +28,9 @@ class ArticlesMap
   end
   
   def self.sort_articles_by_source
-    normal_articles = self.articles.select { |art| art.is_a?(NormalArticle) }
-    NormalArticle.sort_normalArticles_by_source(normal_articles)
+    normal_articles = ArticlesMap.articles.select { |art| art.is_a?(NormalArticle) }
+    table = NormalArticle.sort_normalArticles_by_source(normal_articles)
+    return table
   end
   
   def self.sort_articles_by_acronym
@@ -61,8 +65,3 @@ class ArticlesMap
     def initialize 
     end
 end
-
-#TEST
-#puts ArticlesMap.articles
-#p ArticlesMap.sort_articles_by_year()
-#p "ArticlesMap ", ArticlesMap.sort_articles_by_source()["﻿PLoS ONE"]

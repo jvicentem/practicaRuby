@@ -21,7 +21,11 @@ lista con las líneas de texto de cada artículo.
 =end
   
   def read_files
-    list_of_files = get_file_paths_from_directory
+    begin
+      list_of_files = get_file_paths_from_directory
+    rescue IOError => e
+      raise e
+    end
     list_of_lines = []
     list_of_files.each {|f| list_of_lines << read_file(f)}
     return list_of_lines.reject(&:nil?)
@@ -33,7 +37,13 @@ lista con las líneas de texto de cada artículo.
     end
     
     def get_file_paths_from_directory
-      Dir[self.folder_with_articles+'/*']
+      paths = Dir[self.folder_with_articles+'/*']
+      
+      if paths == Dir['/*'] then
+       raise IOError.new('No se han encontrado artículos. La lista de artículos estará vacía y es posible que se produzcan errores de ejecución.')
+      else
+       return paths
+      end
     end
   
     def read_file(file_path)

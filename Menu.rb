@@ -1,4 +1,10 @@
+begin
 require_relative 'Functions'
+rescue IOError => e
+  $stderr.puts e.message 
+  $stderr.puts 'Finalizada la ejecución del programa.'
+  exit
+end
 
 class Menu
   def self.show_menu
@@ -29,33 +35,33 @@ class Menu
         when 1
               puts 'Introduce un año: '
               year = gets.chomp
-              puts Functions.articles_by_year(year)   
+              Menu.friendly_output(Functions.articles_by_year(year))
         when 2
-              puts Functions.sources()    
+              Menu.friendly_output(Functions.sources())    
         when 3
               puts 'Introduce un acrónimo: '
               acronym = gets.chomp
-              puts Functions.articles_by_acronym(acronym)
+              Menu.friendly_output(Functions.articles_by_acronym(acronym))
         when 4
               puts 'Introduce el nombre de una revista: '
               source = gets.chomp
               puts 'Introduce un acrónimo: '
               acronym = gets.chomp
-              puts Functions.articles_by_source_and_acronym(source,acronym)
+              Menu.friendly_output(Functions.articles_by_source_and_acronym(source,acronym))
         when 5
               puts 'Introduce un año: '
               year = gets.chomp
-              puts Functions.acronyms_by_year(year)
+              Menu.friendly_output(Functions.acronyms_by_year(year))
         when 6
               puts 'Introduce un ID: '
               id_article = gets.chomp
-              puts Functions.acronyms_by_id(id_article)
+              Menu.friendly_output(Functions.acronyms_by_id(id_article))
         when 7
-              puts Functions.articles_without_acronyms() 
+              Menu.friendly_output(Functions.articles_without_acronyms()) 
         when 8
               puts 'Introduce el nombre de una revista: '
               source = gets.chomp
-              puts Functions.articles_by_source(source) 
+              Menu.friendly_output(Functions.articles_by_source(source)) 
         when 9
               hash = Functions.group_articles()
               i = 1
@@ -74,11 +80,20 @@ class Menu
     
         when 11
               puts 'Ha salido del programa.'  
+              exit
       end  
     end
   
     self.show_menu
   
+  end
+  
+  def self.friendly_output(output)
+    if output == [] then
+      puts "No se han encontrado resultados."
+    else
+      puts output
+    end
   end
   
   private
