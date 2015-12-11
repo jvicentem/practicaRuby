@@ -112,14 +112,3 @@ class WikiArticle < Article
       return section_titles.drop(1)
     end
 end
-
-# TEST
-# art = WikiArticle.create_empty_WikiArticle
-# lines = ["id","year","title","--","1. section title 1","section content 1","--","2. section title 2","section content 2","--"]
-# puts art.get_id(lines);
-# puts art.get_title(lines);
-# puts art.get_last_updated(lines);
-# puts art.get_sections(lines);
-# puts art.get_acronyms(lines);
-# puts art.to_s()
-# puts WikiArticle.list_of_lines_to_articles([lines])

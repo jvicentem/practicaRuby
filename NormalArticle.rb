@@ -132,20 +132,3 @@ class NormalArticle < Article
     end
 
 end
-
-# TEST
-#art = NormalArticle.new("","",[],[],"","",0)
-# lines = ["source","id","year","--","title","--","abstract","--","section title 1","section content 1","--","section title 2","section content 2","--"]
-# puts art.get_source(lines);
-# puts art.get_id(lines);
-# puts art.get_year(lines);
-# puts art.get_title(lines);
-# puts art.get_abstract(lines);
-# puts art.get_sections(lines);
-# puts art.get_acronyms(lines);
-# puts art.list_of_lines_to_articles([lineas])
-# puts art.to_s()
-# puts NormalArticle.list_of_lines_to_articles([lines])
-# puts NormalArticle.normalArticle?(['','11111','a'])
-#p NormalArticle.sort_normalArticles_by_year([NormalArticle.new("","",[],[],"","",2015),NormalArticle.new("","",[],[],"","",2015),NormalArticle.new("","",[],[],"","",2016)])
-#p NormalArticle.sort_normalArticles_by_source([NormalArticle.new("","A",[],[],"S1","",2015),NormalArticle.new("","B",[],[],"S2","",2015),NormalArticle.new("","C",[],[],"S3","",2016)])["S1"]

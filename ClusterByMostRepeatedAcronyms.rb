@@ -60,5 +60,3 @@ class ClusterByMostRepeatedAcronyms
   end
   
 end
-
-# TEST

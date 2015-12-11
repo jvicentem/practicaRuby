@@ -132,18 +132,3 @@ class Functions
     def initialize
     end
 end
-
-# TEST
-#p Functions.articles_by_source("Biochemia Medica")
-#p Functions.get_sort_articles_by_source_hash_table()
-#p ArticlesMap.sort_articles_by_source()
-#p ArticlesMap.sort_articles_by_source()["Biochemia Medica"]
-#p Functions.get_sort_articles_by_source_hash_table()[:"Biochemia Medica"]
-#p Functions.get_sort_articles_by_source_hash_table()[:'Biochemia Medica']
-#p Functions.get_sort_articles_by_source_hash_table()[:'"Biochemia Medica"']
-#p Functions.get_sort_articles_by_source_hash_table()[:"\"Biochemia Medica\""]
-#p Functions.get_sort_articles_by_source_hash_table()["Biochemia Medica"]
-#p Functions.get_sort_articles_by_source_hash_table()['Biochemia Medica']
-#p Functions.get_sort_articles_by_source_hash_table()['"Biochemia Medica"']
-#p Functions.get_sort_articles_by_source_hash_table()["\"Biochemia Medica\""]
-#p calificaciones = {"ISI" => 10, "PP" => 10}["ISI"]

@@ -188,7 +188,6 @@ class Acronym
     Acronym.new('','')
   end
   
-  # http://rubular.com/
   def self.acronym?(word)
     StringUtils.string_match_expr?(word,"\\A\\(#{ACRONYM_REGEX}\\)[.:;,]?\\Z")
   end
@@ -222,7 +221,6 @@ class Acronym
         times = acr.times
       end
     }
-    #puts "max_acr ",max_acr.acronym, max_acr.times
     return max_acr
   end
   
@@ -259,18 +257,3 @@ class Acronym
     end
 
 end
-
-# TEST
-# acr = Acronym.new('a','b')
-# puts acr.acronym?('(ABC)')
-# puts acr.acronym?('(ABC-1)')
-# words = ['amarillo','casa','Blanco','(ACB)']
-# improved_list_of_words = words[0...3].reverse
-# puts improved_list_of_words[0].downcase
-# puts acr.criterion1('(ACB)',['pepe','amarillo','casa','pepe','blanco','amarillo','casa.','blanco','amarillo','CSA','blanco','Amarillo1','Casa2','Blanco3','(ACB)'],14)
-# puts acr.criterion2('(ACB)',['amarillo','casa','intruso','blanco'])
-# puts acr.criterion3('(USH)',['usher','syndrome','(USH)'])
-# puts acr.criterion4('(MTHFR)',['methylenetetrahydrofolate','reductase'])
-# puts Acronym.get_meaning('(OXR1)',"Recently, oxidation resistance 1".split(/\s/))
-#p Acronym.acronym?('(A).')
-#p Acronym.get_meaning('(OXR1)',"Recently, oxidation resistance 1".split(/\s/)).count_appearances(["Recently, (OXR1) oxidation resistance 1 (OXR1) (OXR1) (OXR1)"])

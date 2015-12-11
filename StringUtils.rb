@@ -25,5 +25,3 @@ class StringUtils
     def initialize 
     end
 end
-
-#TEST

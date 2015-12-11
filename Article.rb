@@ -92,13 +92,7 @@ class Article
           acronyms = art.acronyms
           most_repeated_acronym = Acronym.most_repeated_acronym(acronyms)
           most_repeated_acronym = most_repeated_acronym.acronym
-          #p "mra ",most_repeated_acronym
-          #p "keyss",hash.keys
-          #puts "ya está ?",hash.has_key?(most_repeated_acronym)
-          #hash.keys.each {|key| hash[most_repeated_acronym] << art if key == most_repeated_acronym}
           hash[most_repeated_acronym] << art
-          
-          #puts "length ",hash[most_repeated_acronym].length
         end
       }
       
@@ -122,9 +116,3 @@ class Article
     end
   
 end
-
-# TEST
-
-# art = Article.new("","","--",[],[])
-# puts art.get_separated_content(["a","a","a","--","b","c","--","d","e"])
-# p Article.descendants()

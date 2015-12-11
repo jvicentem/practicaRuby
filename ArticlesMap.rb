@@ -65,7 +65,3 @@ class ArticlesMap
     def initialize 
     end
 end
-
-#TEST
-#puts ArticlesMap.articles
-#p ArticlesMap.sort_articles_by_year()
