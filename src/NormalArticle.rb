@@ -74,7 +74,7 @@ class NormalArticle < Article
   def self.sort_normalArticles_by_source_only_title(normal_articles)
     normal_articles = normal_articles.sort_by {|art| art.source}
     hash = Hash.new { |hash, key| hash[key] = [] }
-    normal_articles.collect { |article| [article.source, hash[article.source].push(article.title)] }
+    normal_articles.collect { |article| [article.source.chomp[1..-1], hash[article.source.chomp[1..-1]].push(article.title)] }
     return hash
   end
   

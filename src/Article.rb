@@ -60,6 +60,35 @@ class Article
       return Acronym.convert_object_key_to_acronym_key(hash)
     end
     
+    def self.sort_articles_by_acronym2(articles) 
+      hash = Hash.new { |hash, key| hash[key] = [] }
+      articles.each { |article|
+        if article.acronyms.length > 0 then
+          article.acronyms.each {|acr| 
+            list_aux = []
+            already_in = false
+            hash.each_key() {|key| 
+              if key == acr then 
+                list_aux = hash[key]
+                hash.delete(key)
+                already_in = true
+              end
+            }
+
+            if !already_in then
+              hash[acr] << article 
+            else
+              hash[acr] = (list_aux << article)
+            end
+          } 
+        else
+          hash["No acronyms"] << article
+        end
+      }
+      
+      return Acronym.convert_object_key_to_acronym_key(hash)
+    end
+    
     def self.sort_titles_by_acronym(articles) 
       hash_acronyms = self.sort_articles_by_acronym(articles)
       

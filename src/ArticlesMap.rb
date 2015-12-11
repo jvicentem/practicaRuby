@@ -42,8 +42,7 @@ class ArticlesMap
   end
   
   def self.sort_articles_by_source_and_acronym
-    hash_acronyms = Article.sort_articles_by_acronym(self.articles)
-    
+    hash_acronyms = Article.sort_articles_by_acronym2(self.articles)
     hash_acronyms.each_key() {|key| 
         articles_list = hash_acronyms[key]
         hash_source = NormalArticle.sort_normalArticles_by_source_only_title(
@@ -51,6 +50,8 @@ class ArticlesMap
                                                 )
         hash_acronyms[key] = hash_source
     }
+    
+    return hash_acronyms
   end
   
   def self.sort_acronyms_by_id()

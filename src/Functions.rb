@@ -86,7 +86,7 @@ class Functions
   
   #4
   def self.articles_by_source_and_acronym(source,acronym)
-    self.get_sort_articles_by_source_and_acronym_hash_table()[acronym].values.flatten!
+    self.get_sort_articles_by_source_and_acronym_hash_table()[acronym][source]
   end
   
   #5
