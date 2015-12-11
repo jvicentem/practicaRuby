@@ -8,7 +8,7 @@ class Acronym
   end
   
   attr_reader :acronym, :meaning, :times
-  attr_writer :times, :acronym
+  attr_writer :times
   
   def count_appearances!(lines)
     lines.each {|line| 
@@ -158,7 +158,6 @@ class Acronym
                                           reversed_acronym.slice!(0)
                                         end                                        
                                       else
-                                        #p "prueba ",word,reversed_acronym
                                         if word[0].downcase == reversed_acronym[0].downcase then 
                                           valid_word = true
                                           reversed_acronym.slice!(0)
@@ -182,6 +181,29 @@ class Acronym
     
     return Acronym.new(acronym_without_parenthesis, temp_meaning.join(" "))
   end         
+  
+  def self.special_acronyms(words)
+    acronyms = []
+    if words[0] == "Abbreviations:" then
+      list = words.drop(1)
+      list.each_with_index {|acr,i|
+        if list[i] == "=" then
+          j = i + 1
+          stop = false
+          meaning = []
+          while !stop
+            stop = true if StringUtils.has_any_of_these_characters_at_the_end?(list[j],[',','.',':',';']) 
+            meaning << list[j]
+            j = j + 1
+          end
+          acronyms << Acronym.new(list[i-1],meaning.join(' '))
+          i = j + 1
+        end
+      }
+    end
+
+    return acronyms
+  end
   
 
   def self.create_empty_Acronym

@@ -15,7 +15,7 @@ class ArticlesMap
     map1 = WikiArticle.sort_wikiArticles_by_year_only_title(self.articles.select { |art| art.is_a?(WikiArticle) })
     map2 = NormalArticle.sort_normalArticles_by_year_only_title(self.articles.select { |art| art.is_a?(NormalArticle) })
     
-    merged = map1.merge(map2){|key, oldval, newval| newval + oldval}
+    merged = map1.merge(map2){|key, oldval, newval| (newval + oldval).sort}
     
     return merged
   end
