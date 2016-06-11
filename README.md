@@ -1,3 +1,3 @@
-# practicaRuby
+# Procesamiento de documentos científicos
 
-Práctica obligatoria con Ruby 2015/2016
+https://github.com/jvicentem/practicaRuby/wiki
